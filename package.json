@@ -1,0 +1,23 @@
+{
+  "name": "dsptw-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "watch": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"npm run start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^7.3.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^7.2.4",
+    "nodemon": "^2.0.4",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  }
+}
