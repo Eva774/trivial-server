@@ -63,17 +63,15 @@ export class DrieZesNegen extends Round {
         };
     }
 
-    public getState() {
-        return this.state;
-    }
-
     public correctAnswer() {
         if (this.state.currentQuestionIndex % 3 === 2) {
-            this.state.currentQuestionIndex++;
             return { scoreForPlayer: 10 };
         }
-        this.state.currentQuestionIndex++;
 
         return {};
+    }
+
+    public nextQuestion() {
+        this.state.currentQuestionIndex++;
     }
 }

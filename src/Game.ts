@@ -71,15 +71,15 @@ export class Game extends EventEmitter {
         }
     }
 
-    private emitUpdate() {
-        this.emit('gameStateUpdate', this.getState());
-    }
-
-    private nextRound() {
+    public nextRound() {
         this.currentRoundIndex++;
         this.calculatePlayerOrder();
         this.currentPlayerIndex = 0;
         this.emitUpdate();
+    }
+
+    private emitUpdate() {
+        this.emit('gameStateUpdate', this.getState());
     }
 
     private calculatePlayerOrder() {

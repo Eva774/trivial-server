@@ -8,7 +8,9 @@ export abstract class Round {
         this.roundName = roundName;
     }
 
-    public abstract correctAnswer(): { scoreForPlayer?: number, scoreForOtherPlayer?: number };
+    public abstract correctAnswer(foundIndex?: number): { scoreForPlayer?: number, scoreForOtherPlayer?: number };
 
-    public abstract getState(): { questions: any };
+    public abstract nextQuestion(): void;
+
+    public abstract getState(): any;
 }
