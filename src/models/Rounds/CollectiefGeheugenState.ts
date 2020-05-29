@@ -1,4 +1,5 @@
 export type CollectiefGeheugenState = {
+    currentQuestionIndex: number,
     questions:
     Array<{
         videoUrl: string,

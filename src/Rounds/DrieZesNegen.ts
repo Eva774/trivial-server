@@ -71,6 +71,11 @@ export class DrieZesNegen extends Round {
         return {};
     }
 
+    public getState() {
+        return this.state;
+    }
+
+
     public nextQuestion() {
         this.state.currentQuestionIndex++;
     }

@@ -1,10 +1,9 @@
 export type GallerijState = {
-    questions:
-    [{
-        questions: Array<{
-            imageUrl: string,
-            answer: string,
-            found: boolean,
-        }>,
-    }],
+    currentImageIndex: number,
+    currentQuestionSeriesIndex: number,
+    questions: Array<Array<{
+        imageUrl: string,
+        answer: string,
+        found: boolean,
+    }>>,
 };

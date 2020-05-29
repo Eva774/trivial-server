@@ -59,7 +59,105 @@ export class Puzzel extends Round {
                         answerIndex: 1,
                         text: 'Gele wortel3',
                     },
-                    ]
+                    ],
+                }, {
+                    answers: [{
+                        found: false,
+                        text: 'Patatten',
+                    },
+                    {
+                        found: false,
+                        text: 'Aardappelen',
+                    },
+                    {
+                        found: false,
+                        text: 'Gele wortel',
+                    }],
+                    grid: [{
+                        answerIndex: 0,
+                        text: 'Patatten1',
+                    },
+                    {
+                        answerIndex: 0,
+                        text: 'Patatten2',
+                    }, {
+                        answerIndex: 0,
+                        text: 'Patatten3',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Aardappelen1',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Aardappelen2',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Aardappelen3',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Gele wortel1',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Gele wortel2',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Gele wortel3',
+                    },
+                    ],
+                }, {
+                    answers: [{
+                        found: false,
+                        text: 'Patatten',
+                    },
+                    {
+                        found: false,
+                        text: 'Aardappelen',
+                    },
+                    {
+                        found: false,
+                        text: 'Gele wortel',
+                    }],
+                    grid: [{
+                        answerIndex: 0,
+                        text: 'Patatten1',
+                    },
+                    {
+                        answerIndex: 0,
+                        text: 'Patatten2',
+                    }, {
+                        answerIndex: 0,
+                        text: 'Patatten3',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Aardappelen1',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Aardappelen2',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Aardappelen3',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Gele wortel1',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Gele wortel2',
+                    },
+                    {
+                        answerIndex: 1,
+                        text: 'Gele wortel3',
+                    },
+                    ],
                 },
             ],
 
