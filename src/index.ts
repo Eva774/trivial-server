@@ -3,12 +3,14 @@ import { Game } from './Game';
 import { log } from './Log';
 import { GameState } from './models/GameState';
 
+// TODO set port in config
 const server = new WebSocket.Server({ port: 8080 });
 const sockets: WebSocket[] = [];
 
 const game = new Game();
 
 server.on('connection', (socket) => {
+    log.debug('New socket connection incoming');
     socket.on('message', (rawData) => {
         log.debug(`received from a client: ${rawData}`);
 
@@ -39,12 +41,19 @@ server.on('connection', (socket) => {
             case 'nextPlayer':
                 game.nextPlayer();
                 break;
+            case 'setPlayerName':
+                game.setPlayerName(data.playerIndex, data.name);
+                break;
+            case 'setPlayerTime':
+                game.setPlayerTime(data.playerIndex, data.time);
+                break;
             default:
                 console.warn('not a command');
         }
     });
     socket.send(JSON.stringify({ version: '0.1' }));
     socket.on('close', () => {
+        log.debug('Socket connection closed');
         sockets.splice(sockets.indexOf(socket), 1);
     });
     sockets.push(socket);
@@ -59,5 +68,3 @@ function broadcast(event: string, data: any) {
         socket.emit(event, JSON.stringify(data));
     }
 }
-
-log.info('De Slimste Preparees ter wereld server started on port 8080');

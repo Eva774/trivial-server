@@ -47,16 +47,8 @@ export class Game extends EventEmitter {
         super();
     }
 
-    public getState(): GameState {
-        return {
-            currentPlayer: this.playerIndex,
-            players: this.players,
-            roundState: this.getCurrentRound().getState(),
-            timerIsRunning: this.timerIsRunning,
-        };
-    }
-
     public startTime() {
+        log.debug('startTime');
         this.timerIsRunning = true;
         this.timerStarted = Date.now();
         this.timerTimeout = setTimeout(this.stopTime.bind(this), this.getCurrentPlayer().time);
@@ -64,6 +56,7 @@ export class Game extends EventEmitter {
     }
 
     public stopTime() {
+        log.debug('stopTime');
         this.timerIsRunning = false;
         this.getCurrentPlayer().time -= (Date.now() - this.timerStarted);
         if (this.timerTimeout) {
@@ -73,6 +66,7 @@ export class Game extends EventEmitter {
     }
 
     public correctAnswer(foundIndex?: number, playerIndex = this.playerIndex) {
+        log.debug('correctAnswer', { foundIndex, playerIndex });
         const result = this.getCurrentRound().correctAnswer(foundIndex);
         if (result.scoreForPlayer) {
             this.addTimeToPlayer(playerIndex, result.scoreForPlayer);
@@ -80,34 +74,65 @@ export class Game extends EventEmitter {
         if (result.scoreForOtherPlayer) {
             this.addTimeToPlayer(this.getOtherPlayerIndex(playerIndex), result.scoreForOtherPlayer);
         }
+        this.emitUpdate();
     }
 
     public nextQuestion() {
+        log.debug('nextQuestion');
         this.getCurrentRound().nextQuestion();
+        this.emitUpdate();
     }
 
     public nextImage() {
+        log.debug('nextImage');
         const currentRound = this.getCurrentRound();
         if (currentRound instanceof Gallerij) {
             currentRound.nextImage();
         }
+        this.emitUpdate();
     }
 
     public nextRound() {
+        log.debug('nextRound');
         this.roundIndex++;
         this.calculatePlayerOrder();
         this.playerOrderIndex = 0;
+        if (this.getCurrentRound instanceof Finale) {
+            this.selectFinalPlayers();
+        }
         this.emitUpdate();
     }
 
     public nextPlayer() {
+        log.debug('nextPlayer');
         this.playerOrderIndex = (this.playerOrderIndex + 1) % this.playerOrder.length;
         this.playerIndex = this.playerOrder[this.playerOrderIndex];
         this.emitUpdate();
     }
 
+    public setPlayerName(playerIndex: number, name: string) {
+        this.players[playerIndex].name = name;
+        this.emitUpdate();
+    }
+
+    public setPlayerTime(playerIndex: number, time: number) {
+        this.players[playerIndex].time = time;
+        this.emitUpdate();
+    }
+
+    private getState(): GameState {
+        return {
+            currentPlayer: this.playerIndex,
+            players: this.players,
+            roundState: this.getCurrentRound().getState(),
+            timerIsRunning: this.timerIsRunning,
+        };
+    }
+
     private emitUpdate() {
-        this.emit('gameStateUpdate', this.getState());
+        const gameState = this.getState()
+        log.debug('gameStateUpdate', gameState);
+        this.emit('gameStateUpdate', gameState);
     }
 
     private calculatePlayerOrder() {
@@ -115,16 +140,20 @@ export class Game extends EventEmitter {
     }
 
     private selectFinalPlayers() {
+        log.debug('Selecting final players, removing player with HIGHEST time');
         // TODO add select lowest or highest in config
-        // get index of player with lowest time
+        // get index of player with highest time
         let playerWithLowestTimeIndex = 0;
         for (let i = 1; i < this.players.length; i++) {
-            if (this.players[i].time < this.players[playerWithLowestTimeIndex].time) {
+            if (this.players[i].time > this.players[playerWithLowestTimeIndex].time) {
                 playerWithLowestTimeIndex = i;
             }
         }
         const playerOrderIndex = this.playerOrder.indexOf(playerWithLowestTimeIndex);
         this.playerOrder.splice(playerOrderIndex, 1);
+
+        const winner = this.players[playerWithLowestTimeIndex]
+        log.info('player', winner.name, 'won with a time of', winner.time);
     }
 
     /**
