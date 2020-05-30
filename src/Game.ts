@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import { log } from './Log';
 import { GameState } from './models/GameState';
 import { PlayerState } from './models/PlayerState';
 import { CollectiefGeheugen } from './Rounds/CollectiefGeheugen';
@@ -8,7 +9,6 @@ import { Gallerij } from './Rounds/Gallerij';
 import { OpenDeur } from './Rounds/OpenDeur';
 import { Puzzel } from './Rounds/Puzzel';
 import { Round } from './Rounds/Round';
-import { log } from './Log';
 
 export class Game extends EventEmitter {
 
