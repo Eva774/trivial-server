@@ -7,8 +7,9 @@ export class OpenDeur extends Round {
     private state: OpenDeurState;
 
     constructor() {
-        super(RoundName.OpenDeur);
+        super();
         this.state = {
+            roundName: RoundName.OpenDeur,
             currentQuestionIndex: 0,
             questions: [
                 {

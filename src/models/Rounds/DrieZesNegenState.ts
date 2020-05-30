@@ -1,8 +1,11 @@
+import { RoundName } from '../RoundName';
+
 export type DrieZesNegenState = {
+    roundName: RoundName,
     questions:
     Array<{
-        answer: string,
         question: string,
+        answer: string,
     }>,
     currentQuestionIndex: number,
 };

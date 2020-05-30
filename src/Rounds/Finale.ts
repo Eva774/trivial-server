@@ -7,8 +7,9 @@ export class Finale extends Round {
     private state: FinaleState;
 
     constructor() {
-        super(RoundName.Finale);
+        super();
         this.state = {
+            roundName: RoundName.Finale,
             currentQuestionIndex: 0,
             questions: [
                 {
@@ -167,8 +168,7 @@ export class Finale extends Round {
 
     public correctAnswer(answerIndex: number) {
         this.state.questions[this.state.currentQuestionIndex].answers[answerIndex].found = true;
-        // TODO misschien penalty ipv score?
-        return { scoreForOtherPlayer: 20 };
+        return { scoreForOtherPlayer: -20 };
     }
 
     public getState() {

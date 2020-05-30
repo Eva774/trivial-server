@@ -7,8 +7,9 @@ export class Gallerij extends Round {
     private state: GallerijState;
 
     constructor() {
-        super(RoundName.Gallerij);
+        super();
         this.state = {
+            roundName: RoundName.Gallerij,
             currentImageIndex: 0,
             currentQuestionSeriesIndex: 0,
             questions: [

@@ -7,8 +7,9 @@ export class CollectiefGeheugen extends Round {
     private state: CollectiefGeheugenState;
 
     constructor() {
-        super(RoundName.Gallerij);
+        super();
         this.state = {
+            roundName: RoundName.Gallerij,
             currentQuestionIndex: 0,
             questions: [
                 {
@@ -93,7 +94,7 @@ export class CollectiefGeheugen extends Round {
     public correctAnswer(answerIndex: number) {
         const { answers } = this.state.questions[this.state.currentQuestionIndex];
 
-        let score = 0;
+        let score = 10;
         answers.forEach((answer) => {
             if (answer.found) {
                 score += 10;

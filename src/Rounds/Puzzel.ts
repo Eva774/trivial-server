@@ -7,8 +7,9 @@ export class Puzzel extends Round {
     private state: PuzzelState;
 
     constructor() {
-        super(RoundName.Puzzel);
+        super();
         this.state = {
+            roundName: RoundName.Puzzel,
             currentPuzzleIndex: 0,
             puzzles: [
                 {

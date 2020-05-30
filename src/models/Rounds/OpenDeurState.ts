@@ -1,4 +1,7 @@
+import { RoundName } from '../RoundName';
+
 export type OpenDeurState = {
+    roundName: RoundName,
     questions:
     Array<{
         videoUrl: string,

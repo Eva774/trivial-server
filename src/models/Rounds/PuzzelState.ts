@@ -1,4 +1,7 @@
+import { RoundName } from '../RoundName';
+
 export type PuzzelState = {
+    roundName: RoundName,
     currentPuzzleIndex: number,
     puzzles:
     Array<{
