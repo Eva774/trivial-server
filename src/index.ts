@@ -1,5 +1,6 @@
 import WebSocket from 'ws';
 import { GameState } from '../../dsptw-common/models/GameState';
+import { SocketEvent } from '../../dsptw-common/models/SocketEvent';
 import { Game } from './Game';
 import { log } from './Log';
 
@@ -60,7 +61,7 @@ server.on('connection', (socket) => {
 });
 
 game.on('gameStateUpdate', (gameState: GameState) => {
-    broadcast('gameStateUpdate', gameState);
+    broadcast(SocketEvent.GameStateUpdate, gameState);
 });
 
 function broadcast(event: string, data: any) {
