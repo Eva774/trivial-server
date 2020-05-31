@@ -1,7 +1,7 @@
 import WebSocket from 'ws';
+import { GameState } from '../../dsptw-common/models/GameState';
 import { Game } from './Game';
 import { log } from './Log';
-import { GameState } from './models/GameState';
 
 // TODO set port in config
 const server = new WebSocket.Server({ port: 8080 });
@@ -48,7 +48,7 @@ server.on('connection', (socket) => {
                 game.setPlayerTime(data.playerIndex, data.time);
                 break;
             default:
-                console.warn('not a command');
+                log.warn('not a command');
         }
     });
     socket.send(JSON.stringify({ version: '0.1' }));
@@ -59,12 +59,17 @@ server.on('connection', (socket) => {
     sockets.push(socket);
 });
 
-game.on('update', (gameState: GameState) => {
-    broadcast('update', gameState);
+game.on('gameStateUpdate', (gameState: GameState) => {
+    broadcast('gameStateUpdate', gameState);
 });
 
 function broadcast(event: string, data: any) {
     for (const socket of sockets) {
-        socket.emit(event, JSON.stringify(data));
+        socket.send(JSON.stringify({
+            event,
+            data,
+        }));
     }
 }
+
+log.info('De slimste Preparees server started on port 8080');

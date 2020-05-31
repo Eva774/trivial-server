@@ -1,5 +1,5 @@
-import { RoundName } from '../models/RoundName';
-import { CollectiefGeheugenState } from '../models/Rounds/CollectiefGeheugenState';
+import { RoundName } from '../../../dsptw-common/models/RoundName';
+import { CollectiefGeheugenState } from '../../../dsptw-common/models/Rounds/CollectiefGeheugenState';
 import { Round } from './Round';
 
 export class CollectiefGeheugen extends Round {

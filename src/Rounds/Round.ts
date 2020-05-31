@@ -1,5 +1,3 @@
-import { RoundName } from '../models/RoundName';
-
 export abstract class Round {
 
     public abstract correctAnswer(foundIndex?: number): { scoreForPlayer?: number, scoreForOtherPlayer?: number };

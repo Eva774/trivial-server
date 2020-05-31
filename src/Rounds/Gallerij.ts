@@ -1,5 +1,5 @@
-import { RoundName } from '../models/RoundName';
-import { GallerijState } from '../models/Rounds/GallerijState';
+import { RoundName } from '../../../dsptw-common/models/RoundName';
+import { GallerijState } from '../../../dsptw-common/models/Rounds/GallerijState';
 import { Round } from './Round';
 
 export class Gallerij extends Round {

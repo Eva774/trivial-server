@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
+import { GameState } from '../../dsptw-common/models/GameState';
+import { PlayerState } from '../../dsptw-common/models/PlayerState';
 import { log } from './Log';
-import { GameState } from './models/GameState';
-import { PlayerState } from './models/PlayerState';
 import { CollectiefGeheugen } from './Rounds/CollectiefGeheugen';
 import { DrieZesNegen } from './Rounds/DrieZesNegen';
 import { Finale } from './Rounds/Finale';
@@ -130,7 +130,7 @@ export class Game extends EventEmitter {
     }
 
     private emitUpdate() {
-        const gameState = this.getState()
+        const gameState = this.getState();
         log.debug('gameStateUpdate', gameState);
         this.emit('gameStateUpdate', gameState);
     }
@@ -152,7 +152,7 @@ export class Game extends EventEmitter {
         const playerOrderIndex = this.playerOrder.indexOf(playerWithLowestTimeIndex);
         this.playerOrder.splice(playerOrderIndex, 1);
 
-        const winner = this.players[playerWithLowestTimeIndex]
+        const winner = this.players[playerWithLowestTimeIndex];
         log.info('player', winner.name, 'won with a time of', winner.time);
     }
 

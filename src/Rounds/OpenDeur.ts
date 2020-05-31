@@ -1,5 +1,5 @@
-import { RoundName } from '../models/RoundName';
-import { OpenDeurState } from '../models/Rounds/OpenDeurState';
+import { RoundName } from '../../../dsptw-common/models/RoundName';
+import { OpenDeurState } from '../../../dsptw-common/models/Rounds/OpenDeurState';
 import { Round } from './Round';
 
 export class OpenDeur extends Round {

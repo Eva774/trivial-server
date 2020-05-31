@@ -1,5 +1,5 @@
-import { RoundName } from '../models/RoundName';
-import { PuzzelState } from '../models/Rounds/PuzzelState';
+import { RoundName } from '../../../dsptw-common/models/RoundName';
+import { PuzzelState } from '../../../dsptw-common/models/Rounds/PuzzelState';
 import { Round } from './Round';
 
 export class Puzzel extends Round {
