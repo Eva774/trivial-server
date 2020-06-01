@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
-import { GameState } from '../../dsptw-common/models/GameState';
-import { SocketEvent } from '../../dsptw-common/models/SocketEvent';
+import { GameState } from '../../dsptw-client/src/models/GameState';
+import { SocketEvent } from '../../dsptw-client/src/models/SocketEvent';
 import { Game } from './Game';
 import { log } from './Log';
 
@@ -54,7 +54,10 @@ server.on('connection', (socket) => {
     });
     // TODO make consistent with other events
     socket.send(JSON.stringify({ version: '0.1' }));
-    broadcast(SocketEvent.GameStateUpdate, game.getState());
+    socket.send(JSON.stringify({
+        event: SocketEvent.GameStateUpdate,
+        data: game.getState(),
+    }));
     socket.on('close', () => {
         log.debug('Socket connection closed');
         sockets.splice(sockets.indexOf(socket), 1);

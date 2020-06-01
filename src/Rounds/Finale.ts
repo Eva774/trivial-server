@@ -1,5 +1,5 @@
-import { RoundName } from '../../../dsptw-common/models/RoundName';
-import { FinaleState } from '../../../dsptw-common/models/Rounds/FinaleState';
+import { RoundName } from '../../../dsptw-client/src/models/RoundName';
+import { FinaleState } from '../../../dsptw-client/src/models/Rounds/FinaleState';
 import { Round } from './Round';
 
 export class Finale extends Round {

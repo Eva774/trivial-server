@@ -1,5 +1,5 @@
-import { RoundName } from '../../../dsptw-common/models/RoundName';
-import { DrieZesNegenState } from '../../../dsptw-common/models/Rounds/DrieZesNegenState';
+import { RoundName } from '../../../dsptw-client/src/models/RoundName';
+import { DrieZesNegenState } from '../../../dsptw-client/src/models/Rounds/DrieZesNegenState';
 import { Round } from './Round';
 
 export class DrieZesNegen extends Round {

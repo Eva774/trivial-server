@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
-import { GameState } from '../../dsptw-common/models/GameState';
-import { PlayerState } from '../../dsptw-common/models/PlayerState';
+import { GameState } from '../../dsptw-client/src/models/GameState';
+import { PlayerState } from '../../dsptw-client/src/models/PlayerState';
 import { log } from './Log';
 import { CollectiefGeheugen } from './Rounds/CollectiefGeheugen';
 import { DrieZesNegen } from './Rounds/DrieZesNegen';

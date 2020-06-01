@@ -1,5 +1,5 @@
-import { RoundName } from '../../../dsptw-common/models/RoundName';
-import { CollectiefGeheugenState } from '../../../dsptw-common/models/Rounds/CollectiefGeheugenState';
+import { RoundName } from '../../../dsptw-client/src/models/RoundName';
+import { CollectiefGeheugenState } from '../../../dsptw-client/src/models/Rounds/CollectiefGeheugenState';
 import { Round } from './Round';
 
 export class CollectiefGeheugen extends Round {
@@ -9,7 +9,7 @@ export class CollectiefGeheugen extends Round {
     constructor() {
         super();
         this.state = {
-            roundName: RoundName.Gallerij,
+            roundName: RoundName.CollectiefGeheugen,
             currentQuestionIndex: 0,
             questions: [
                 {
