@@ -120,7 +120,7 @@ export class Game extends EventEmitter {
         this.emitUpdate();
     }
 
-    private getState(): GameState {
+    public getState(): GameState {
         return {
             currentPlayer: this.playerIndex,
             players: this.players,

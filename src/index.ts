@@ -52,7 +52,9 @@ server.on('connection', (socket) => {
                 log.warn('not a command');
         }
     });
+    // TODO make consistent with other events
     socket.send(JSON.stringify({ version: '0.1' }));
+    broadcast(SocketEvent.GameStateUpdate, game.getState());
     socket.on('close', () => {
         log.debug('Socket connection closed');
         sockets.splice(sockets.indexOf(socket), 1);
