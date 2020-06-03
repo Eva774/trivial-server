@@ -18,15 +18,15 @@ export class Game extends EventEmitter {
     // TODO get initial state from config
     private players: PlayerState[] = [
         {
-            name: 'speler 1',
+            name: 'Nikki',
             time: 61000,
         },
         {
-            name: 'speler 2',
+            name: 'Mei Li',
             time: 60000,
         },
         {
-            name: 'speler 3',
+            name: 'Victor',
             time: 69000,
         },
     ];
@@ -97,9 +97,10 @@ export class Game extends EventEmitter {
         this.roundIndex++;
         this.calculatePlayerOrder();
         this.playerOrderIndex = 0;
-        if (this.getCurrentRound instanceof Finale) {
+        if (this.getCurrentRound() instanceof Finale) {
             this.selectFinalPlayers();
         }
+        this.playerIndex = this.playerOrder[this.playerOrderIndex];
         this.emitUpdate();
     }
 
@@ -122,6 +123,7 @@ export class Game extends EventEmitter {
 
     public getState(): GameState {
         return {
+            currentPlayers: this.playerOrder,
             currentPlayer: this.playerIndex,
             players: this.players,
             roundState: this.getCurrentRound().getState(),
@@ -177,7 +179,7 @@ export class Game extends EventEmitter {
     }
 
     private addTimeToPlayer(player: number, time: number) {
-        this.players[player].time += time;
+        this.players[player].time += time * 1000;
     }
 
     private getCurrentRound(): Round {

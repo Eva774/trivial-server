@@ -30,7 +30,7 @@ export class OpenDeur extends Round {
                         text: 'veel mijne man',
                     }],
                     question: 'hoeveel patatten enal zeg1',
-                    videoUrl: 'patatvideo.mp4',
+                    videoUrl: 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4',
                 },
                 {
                     answers: [{
@@ -50,7 +50,7 @@ export class OpenDeur extends Round {
                         text: 'veel mijne man',
                     }],
                     question: 'hoeveel patatten enal zeg1',
-                    videoUrl: 'patatvideo.mp4',
+                    videoUrl: 'http://techslides.com/demos/sample-videos/small.mp4',
                 },
                 {
                     answers: [{
@@ -70,7 +70,7 @@ export class OpenDeur extends Round {
                         text: 'veel mijne man',
                     }],
                     question: 'hoeveel patatten enal zeg1',
-                    videoUrl: 'patatvideo.mp4',
+                    videoUrl: 'https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_640_3MG.mp4',
                 },
             ],
         };
