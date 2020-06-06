@@ -98,15 +98,15 @@ export class Puzzel extends Round {
                         text: 'Aardappelen3',
                     },
                     {
-                        answerIndex: 1,
+                        answerIndex: 2,
                         text: 'Gele wortel1',
                     },
                     {
-                        answerIndex: 1,
+                        answerIndex: 2,
                         text: 'Gele wortel2',
                     },
                     {
-                        answerIndex: 1,
+                        answerIndex: 2,
                         text: 'Gele wortel3',
                     },
                     ],
@@ -147,15 +147,15 @@ export class Puzzel extends Round {
                         text: 'Aardappelen3',
                     },
                     {
-                        answerIndex: 1,
+                        answerIndex: 2,
                         text: 'Gele wortel1',
                     },
                     {
-                        answerIndex: 1,
+                        answerIndex: 2,
                         text: 'Gele wortel2',
                     },
                     {
-                        answerIndex: 1,
+                        answerIndex: 2,
                         text: 'Gele wortel3',
                     },
                     ],

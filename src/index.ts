@@ -36,6 +36,12 @@ server.on('connection', (socket) => {
             case 'nextQuestion':
                 game.nextQuestion();
                 break;
+            case 'setCurrentQuestion':
+                game.setCurrentQuestion(data.currentQuestion);
+                break;
+            case 'setView':
+                game.setView(data.view);
+                break;
             case 'nextRound':
                 game.nextRound();
                 break;

@@ -9,6 +9,7 @@ import { Gallerij } from './Rounds/Gallerij';
 import { OpenDeur } from './Rounds/OpenDeur';
 import { Puzzel } from './Rounds/Puzzel';
 import { Round } from './Rounds/Round';
+import { ViewType } from '../../dsptw-client/src/models/ViewType';
 
 export class Game extends EventEmitter {
 
@@ -81,6 +82,29 @@ export class Game extends EventEmitter {
         log.debug('nextQuestion');
         this.getCurrentRound().nextQuestion();
         this.emitUpdate();
+    }
+
+    public setCurrentQuestion(questionIndex: number) {
+        log.debug('setCurrentQuestion', questionIndex);
+        const currentRound = this.getCurrentRound();
+        if (currentRound instanceof OpenDeur) {
+            (currentRound as OpenDeur).setCurrentQuestion(questionIndex);
+            this.emitUpdate();
+        } else {
+            log.warn('Calling setCurrentQuestion not on round OpenDeur!');
+        }
+    }
+
+    public setView(view: ViewType) {
+        log.debug('setView', view);
+        const currentRound = this.getCurrentRound();
+        // TODO add other rounds using the image view
+        if (currentRound instanceof OpenDeur) {
+            (currentRound as OpenDeur).setView(view);
+            this.emitUpdate();
+        } else {
+            log.warn('Calling setView not on round OpenDeur!');
+        }
     }
 
     public nextImage() {
