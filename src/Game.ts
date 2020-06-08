@@ -1,21 +1,19 @@
 import { EventEmitter } from 'events';
 import { GameState } from '../../dsptw-client/src/models/GameState';
 import { PlayerState } from '../../dsptw-client/src/models/PlayerState';
+import { ViewType } from '../../dsptw-client/src/models/ViewType';
 import { log } from './Log';
 import { CollectiefGeheugen } from './Rounds/CollectiefGeheugen';
 import { DrieZesNegen } from './Rounds/DrieZesNegen';
 import { Finale } from './Rounds/Finale';
 import { Gallerij } from './Rounds/Gallerij';
+import { LowestTimeRound } from './Rounds/LowestTimeRound';
 import { OpenDeur } from './Rounds/OpenDeur';
 import { Puzzel } from './Rounds/Puzzel';
 import { Round } from './Rounds/Round';
-import { ViewType } from '../../dsptw-client/src/models/ViewType';
 
 export class Game extends EventEmitter {
 
-    private playerOrder: number[] = [0, 1, 2];
-    private playerOrderIndex: number = 0;
-    private playerIndex: number = 0;
     // TODO get initial state from config
     private players: PlayerState[] = [
         {
@@ -34,11 +32,11 @@ export class Game extends EventEmitter {
     private roundIndex: number = 0; // TODO read from config to skip rounds
     private rounds = [
         new DrieZesNegen(),
-        new OpenDeur(),
-        new Puzzel(),
-        new Gallerij(),
-        new CollectiefGeheugen(),
-        new Finale(),
+        new OpenDeur(this.players),
+        new Puzzel(this.players),
+        new Gallerij(this.players),
+        new CollectiefGeheugen(this.players),
+        new Finale(this.players),
     ];
     private timerIsRunning: boolean = false;
     private timerTimeout?: NodeJS.Timeout;
@@ -66,14 +64,14 @@ export class Game extends EventEmitter {
         this.emitUpdate();
     }
 
-    public correctAnswer(foundIndex?: number, playerIndex = this.playerIndex) {
-        log.debug('correctAnswer', { foundIndex, playerIndex });
+    public correctAnswer(foundIndex?: number, playerId = this.getCurrentRound().getCurrentPlayerId()) {
+        log.debug('correctAnswer', { foundIndex, playerIndex: playerId });
         const result = this.getCurrentRound().correctAnswer(foundIndex);
-        if (result.scoreForPlayer) {
-            this.addTimeToPlayer(playerIndex, result.scoreForPlayer);
+        if ('scoreForPlayer' in result && result.scoreForPlayer) {
+            this.addTimeToPlayer(playerId, result.scoreForPlayer);
         }
-        if (result.scoreForOtherPlayer) {
-            this.addTimeToPlayer(this.getOtherPlayerIndex(playerIndex), result.scoreForOtherPlayer);
+        if ('scoreForOtherPlayer' in result && result.scoreForOtherPlayer) {
+            this.addTimeToPlayer(result.otherPlayerId, result.scoreForOtherPlayer);
         }
         this.emitUpdate();
     }
@@ -112,43 +110,53 @@ export class Game extends EventEmitter {
         const currentRound = this.getCurrentRound();
         if (currentRound instanceof Gallerij) {
             currentRound.nextImage();
+        } else {
+            log.warn('calling nextImage not on round "Gallerij"');
         }
         this.emitUpdate();
     }
 
     public nextRound() {
         log.debug('nextRound');
-        this.roundIndex++;
-        this.calculatePlayerOrder();
-        this.playerOrderIndex = 0;
-        if (this.getCurrentRound() instanceof Finale) {
-            this.selectFinalPlayers();
+        if (this.roundIndex + 1 < this.rounds.length) {
+            this.roundIndex++;
+            const currentRound = this.getCurrentRound();
+            if (currentRound instanceof LowestTimeRound) {
+                currentRound.init();
+            }
+
+            this.emitUpdate();
         }
-        this.playerIndex = this.playerOrder[this.playerOrderIndex];
+    }
+
+    public nextStartingPlayer() {
+        const currentRound = this.getCurrentRound();
+        currentRound.calculateNextStartingPlayer();
+
         this.emitUpdate();
     }
 
-    public nextPlayer() {
-        log.debug('nextPlayer');
-        this.playerOrderIndex = (this.playerOrderIndex + 1) % this.playerOrder.length;
-        this.playerIndex = this.playerOrder[this.playerOrderIndex];
+    public nextPlayerToComplete() {
+        const currentRound = this.getCurrentRound();
+        currentRound.calculateNextPlayerToComplete();
         this.emitUpdate();
     }
 
-    public setPlayerName(playerIndex: number, name: string) {
-        this.players[playerIndex].name = name;
+    public setPlayerName(playerId: number, name: string) {
+        this.players[playerId].name = name;
         this.emitUpdate();
     }
 
-    public setPlayerTime(playerIndex: number, time: number) {
-        this.players[playerIndex].time = time;
+    public setPlayerTime(playerId: number, time: number) {
+        this.players[playerId].time = time;
         this.emitUpdate();
     }
 
     public getState(): GameState {
+        const currentRound = this.getCurrentRound();
         return {
-            currentPlayers: this.playerOrder,
-            currentPlayer: this.playerIndex,
+            currentPlayers: (currentRound instanceof Finale) ? currentRound.currentPlayerIds : [0, 1, 2],
+            currentPlayer: this.getCurrentRound().getCurrentPlayerId(),
             players: this.players,
             roundState: this.getCurrentRound().getState(),
             timerIsRunning: this.timerIsRunning,
@@ -161,45 +169,8 @@ export class Game extends EventEmitter {
         this.emit('gameStateUpdate', gameState);
     }
 
-    private calculatePlayerOrder() {
-        this.playerOrder.sort((a, b) => this.players[a].time - this.players[b].time);
-    }
-
-    private selectFinalPlayers() {
-        log.debug('Selecting final players, removing player with HIGHEST time');
-        // TODO add select lowest or highest in config
-        // get index of player with highest time
-        let playerWithLowestTimeIndex = 0;
-        for (let i = 1; i < this.players.length; i++) {
-            if (this.players[i].time > this.players[playerWithLowestTimeIndex].time) {
-                playerWithLowestTimeIndex = i;
-            }
-        }
-        const playerOrderIndex = this.playerOrder.indexOf(playerWithLowestTimeIndex);
-        this.playerOrder.splice(playerOrderIndex, 1);
-
-        const winner = this.players[playerWithLowestTimeIndex];
-        log.info('player', winner.name, 'won with a time of', winner.time);
-    }
-
-    /**
-     * Only to be called in the final round when there are two players left.
-     */
-    private getOtherPlayerIndex(playerIndex: number) {
-        if (!(this.getCurrentRound() instanceof Finale)) {
-            log.warn('WE ZITTEN NIET IN DE FINaLE AAaAAA');
-        }
-
-        if (this.playerOrder.indexOf(playerIndex) === 0) {
-            return 1;
-        } else {
-            return 0;
-        }
-        // return this.playerOrder[1 - this.playerOrder.indexOf(playerIndex)]; // if you are ninja
-    }
-
     private getCurrentPlayer() {
-        return this.players[this.playerIndex];
+        return this.players[this.getCurrentRound().getCurrentPlayerId()];
     }
 
     private addTimeToPlayer(player: number, time: number) {

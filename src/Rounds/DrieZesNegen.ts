@@ -5,6 +5,7 @@ import { Round } from './Round';
 export class DrieZesNegen extends Round {
 
     private state: DrieZesNegenState;
+    private currentPlayerId = 0;
 
     constructor() {
         super();
@@ -69,7 +70,19 @@ export class DrieZesNegen extends Round {
             return { scoreForPlayer: 10 };
         }
 
-        return {};
+        return { scoreForPlayer: 0 };
+    }
+
+    public calculateNextStartingPlayer() {
+        this.currentPlayerId = (this.currentPlayerId + 1) % 3;
+    }
+
+    public calculateNextPlayerToComplete() {
+        this.currentPlayerId = (this.currentPlayerId + 1) % 3;
+    }
+
+    public getCurrentPlayerId(): number {
+        return this.currentPlayerId;
     }
 
     public getState() {

@@ -1,13 +1,14 @@
+import { PlayerState } from '../../../dsptw-client/src/models/PlayerState';
 import { RoundName } from '../../../dsptw-client/src/models/RoundName';
 import { CollectiefGeheugenState } from '../../../dsptw-client/src/models/Rounds/CollectiefGeheugenState';
-import { Round } from './Round';
+import { LowestTimeRound } from './LowestTimeRound';
 
-export class CollectiefGeheugen extends Round {
+export class CollectiefGeheugen extends LowestTimeRound {
 
     private state: CollectiefGeheugenState;
 
-    constructor() {
-        super();
+    constructor(players: PlayerState[]) {
+        super(players);
         this.state = {
             roundName: RoundName.CollectiefGeheugen,
             currentQuestionIndex: 0,

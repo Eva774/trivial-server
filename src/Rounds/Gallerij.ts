@@ -1,13 +1,14 @@
+import { PlayerState } from '../../../dsptw-client/src/models/PlayerState';
 import { RoundName } from '../../../dsptw-client/src/models/RoundName';
 import { GallerijState } from '../../../dsptw-client/src/models/Rounds/GallerijState';
-import { Round } from './Round';
+import { LowestTimeRound } from './LowestTimeRound';
 
-export class Gallerij extends Round {
+export class Gallerij extends LowestTimeRound {
 
     private state: GallerijState;
 
-    constructor() {
-        super();
+    constructor(players: PlayerState[]) {
+        super(players);
         this.state = {
             roundName: RoundName.Gallerij,
             currentImageIndex: 0,
@@ -22,47 +23,47 @@ export class Gallerij extends Round {
                     {
                         answer: 'Aardappelfoto 2',
                         found: false,
-                        imageUrl: 'patat1.png',
+                        imageUrl: 'patat2.png',
                     },
                     {
                         answer: 'Aardappelfoto 3',
                         found: false,
-                        imageUrl: 'patat1.png',
+                        imageUrl: 'patat3.png',
                     },
                     {
                         answer: 'Aardappelfoto 4',
                         found: false,
-                        imageUrl: 'patat1.png',
+                        imageUrl: 'patat4.png',
                     },
                     {
                         answer: 'Aardappelfoto 5',
                         found: false,
-                        imageUrl: 'patat1.png',
+                        imageUrl: 'patat5.png',
                     },
                     {
                         answer: 'Aardappelfoto 6',
                         found: false,
-                        imageUrl: 'patat1.png',
+                        imageUrl: 'patat6.png',
                     },
                     {
                         answer: 'Aardappelfoto 7',
                         found: false,
-                        imageUrl: 'patat1.png',
+                        imageUrl: 'patat7.png',
                     },
                     {
                         answer: 'Aardappelfoto 8',
                         found: false,
-                        imageUrl: 'patat1.png',
+                        imageUrl: 'patat8.png',
                     },
                     {
                         answer: 'Aardappelfoto 9',
                         found: false,
-                        imageUrl: 'patat1.png',
+                        imageUrl: 'patat9.png',
                     },
                     {
                         answer: 'Aardappelfoto 10',
                         found: false,
-                        imageUrl: 'patat1.png',
+                        imageUrl: 'patat10.png',
                     },
                 ], [
                     {
@@ -182,11 +183,15 @@ export class Gallerij extends Round {
     }
 
     public nextQuestion() {
-        this.state.currentQuestionSeriesIndex++;
-        this.state.currentImageIndex = 0;
+        if (this.state.currentQuestionSeriesIndex < 2) {
+            this.state.currentQuestionSeriesIndex++;
+            this.state.currentImageIndex = 0;
+        }
     }
 
     public nextImage() {
-        this.state.currentImageIndex++;
+        if (this.state.currentImageIndex < 9) {
+            this.state.currentImageIndex++;
+        }
     }
 }

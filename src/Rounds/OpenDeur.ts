@@ -1,14 +1,15 @@
+import { PlayerState } from '../../../dsptw-client/src/models/PlayerState';
 import { RoundName } from '../../../dsptw-client/src/models/RoundName';
 import { OpenDeurState } from '../../../dsptw-client/src/models/Rounds/OpenDeurState';
 import { ViewType } from '../../../dsptw-client/src/models/ViewType';
-import { Round } from './Round';
+import { LowestTimeRound } from './LowestTimeRound';
 
-export class OpenDeur extends Round {
+export class OpenDeur extends LowestTimeRound {
 
     private state: OpenDeurState;
 
-    constructor() {
-        super();
+    constructor(players: PlayerState[]) {
+        super(players);
         this.state = {
             roundName: RoundName.OpenDeur,
             currentQuestionIndex: 0,

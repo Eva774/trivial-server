@@ -1,5 +1,6 @@
 import WebSocket from 'ws';
 import { GameState } from '../../dsptw-client/src/models/GameState';
+import { SocketCommand } from '../../dsptw-client/src/models/SocketCommand';
 import { SocketEvent } from '../../dsptw-client/src/models/SocketEvent';
 import { Game } from './Game';
 import { log } from './Log';
@@ -23,39 +24,45 @@ server.on('connection', (socket) => {
             return;
         }
 
-        switch (data.command) {
-            case 'startTime':
+        switch (data.command as SocketCommand) {
+            case SocketCommand.StartTime:
                 game.startTime();
                 break;
-            case 'stopTime':
+            case SocketCommand.StopTime:
                 game.stopTime();
                 break;
-            case 'correctAnswer':
+            case SocketCommand.CorrectAnswer:
                 game.correctAnswer(data.foundIndex, data.playerIndex);
                 break;
-            case 'nextQuestion':
+            case SocketCommand.NextQuestion:
                 game.nextQuestion();
                 break;
-            case 'setCurrentQuestion':
+            case SocketCommand.SetCurrentQuestion:
                 game.setCurrentQuestion(data.currentQuestion);
                 break;
-            case 'setView':
+            case SocketCommand.NextImage:
+                game.nextImage();
+                break;
+            case SocketCommand.SetView:
                 game.setView(data.view);
                 break;
-            case 'nextRound':
+            case SocketCommand.NextRound:
                 game.nextRound();
                 break;
-            case 'nextPlayer':
-                game.nextPlayer();
+            case SocketCommand.NextStartingPlayer:
+                game.nextStartingPlayer();
                 break;
-            case 'setPlayerName':
+            case SocketCommand.NextPlayerToComplete:
+                game.nextPlayerToComplete();
+                break;
+            case SocketCommand.SetPlayerName:
                 game.setPlayerName(data.playerIndex, data.name);
                 break;
-            case 'setPlayerTime':
+            case SocketCommand.SetPlayerTime:
                 game.setPlayerTime(data.playerIndex, data.time);
                 break;
             default:
-                log.warn('not a command');
+                log.warn('not a valid socket command');
         }
     });
     // TODO make consistent with other events
