@@ -39,7 +39,8 @@ export class Game extends EventEmitter {
         new Finale(this.players),
     ];
     private timerIsRunning: boolean = false;
-    private timerTimeout?: NodeJS.Timeout;
+    // private timerTimeout?: NodeJS.Timeout;
+    private timerInterval?: NodeJS.Timer;
     private timerStarted: number = 0;
 
     constructor() {
@@ -50,16 +51,19 @@ export class Game extends EventEmitter {
         log.debug('startTime');
         this.timerIsRunning = true;
         this.timerStarted = Date.now();
-        this.timerTimeout = setTimeout(this.stopTime.bind(this), this.getCurrentPlayer().time);
-        this.emitUpdate();
+        // this.timerTimeout = setTimeout(this.stopTime.bind(this), this.getCurrentPlayer().time);
+        this.timerInterval = setInterval(() => {
+            this.getCurrentPlayer().time -= 200;
+            this.emitUpdate();
+        }, 200);
     }
 
     public stopTime() {
         log.debug('stopTime');
         this.timerIsRunning = false;
-        this.getCurrentPlayer().time -= (Date.now() - this.timerStarted);
-        if (this.timerTimeout) {
-            clearTimeout(this.timerTimeout);
+        // this.getCurrentPlayer().time -= (Date.now() - this.timerStarted);
+        if (this.timerInterval) {
+            clearTimeout(this.timerInterval);
         }
         this.emitUpdate();
     }
@@ -165,7 +169,7 @@ export class Game extends EventEmitter {
 
     private emitUpdate() {
         const gameState = this.getState();
-        log.debug('gameStateUpdate', gameState);
+        log.debug('gameStateUpdate');
         this.emit('gameStateUpdate', gameState);
     }
 
