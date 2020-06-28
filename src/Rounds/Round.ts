@@ -12,4 +12,6 @@ export abstract class Round {
     public abstract calculateNextPlayerToComplete(): void;
 
     public abstract getCurrentPlayerId(): number;
+
+    public abstract showAllAnswers(): void;
 }

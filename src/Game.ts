@@ -19,6 +19,7 @@ export class Game extends EventEmitter {
         {
             name: 'Nikki',
             time: 61000,
+            cameraLink: "https://sebastiaanjansen.be/"
         },
         {
             name: 'Mei Li',
@@ -41,7 +42,7 @@ export class Game extends EventEmitter {
     private timerIsRunning: boolean = false;
     // private timerTimeout?: NodeJS.Timeout;
     private timerInterval?: NodeJS.Timer;
-    private timerStarted: number = 0;
+    // private timerStarted: number = 0;
 
     constructor() {
         super();
@@ -50,7 +51,7 @@ export class Game extends EventEmitter {
     public startTime() {
         log.debug('startTime');
         this.timerIsRunning = true;
-        this.timerStarted = Date.now();
+        // this.timerStarted = Date.now();
         // this.timerTimeout = setTimeout(this.stopTime.bind(this), this.getCurrentPlayer().time);
         this.timerInterval = setInterval(() => {
             this.getCurrentPlayer().time -= 200;
@@ -80,6 +81,12 @@ export class Game extends EventEmitter {
         this.emitUpdate();
     }
 
+    public showAllAnswers() {
+        log.debug('Showing all unanswered answers')
+        this.getCurrentRound().showAllAnswers();
+        this.emitUpdate();
+    }
+
     public nextQuestion() {
         log.debug('nextQuestion');
         this.getCurrentRound().nextQuestion();
@@ -92,8 +99,11 @@ export class Game extends EventEmitter {
         if (currentRound instanceof OpenDeur) {
             (currentRound as OpenDeur).setCurrentQuestion(questionIndex);
             this.emitUpdate();
+        } else if (currentRound instanceof CollectiefGeheugen) {
+            (currentRound as CollectiefGeheugen).setCurrentQuestion(questionIndex);
+            this.emitUpdate();
         } else {
-            log.warn('Calling setCurrentQuestion not on round OpenDeur!');
+            log.warn('Calling setCurrentQuestion not on round OpenDeur or Collectief Geheugen!');
         }
     }
 
@@ -103,6 +113,9 @@ export class Game extends EventEmitter {
         // TODO add other rounds using the image view
         if (currentRound instanceof OpenDeur) {
             (currentRound as OpenDeur).setView(view);
+            this.emitUpdate();
+        } else if (currentRound instanceof CollectiefGeheugen) {
+            (currentRound as CollectiefGeheugen).setView(view);
             this.emitUpdate();
         } else {
             log.warn('Calling setView not on round OpenDeur!');

@@ -202,6 +202,12 @@ export class Finale extends Round {
         return this.currentPlayerIds[this.currentAnsweringPlayerIdIndex];
     }
 
+    public showAllAnswers(): void {
+        this.state.questions[this.state.currentQuestionIndex].answers.forEach(answer => {
+            answer.found = true;
+        })
+    }
+
     private selectFinalPlayers() {
         log.debug('Selecting final players, removing player with HIGHEST time');
         // TODO add select lowest or highest in config

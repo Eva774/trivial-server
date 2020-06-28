@@ -186,4 +186,10 @@ export class Puzzel extends LowestTimeRound {
         this.state.currentPuzzleIndex++;
     }
 
+    public showAllAnswers(): void {
+        this.state.puzzles[this.state.currentPuzzleIndex].answers.forEach(answer => {
+            answer.found = true;
+        })
+    }
+
 }

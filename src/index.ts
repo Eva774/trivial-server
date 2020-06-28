@@ -40,6 +40,9 @@ server.on('connection', (socket) => {
             case SocketCommand.SetCurrentQuestion:
                 game.setCurrentQuestion(data.currentQuestion);
                 break;
+            case SocketCommand.ShowAllAnswers:
+                game.showAllAnswers();
+                break;
             case SocketCommand.NextImage:
                 game.nextImage();
                 break;

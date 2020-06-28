@@ -2,6 +2,7 @@ import { PlayerState } from '../../../dsptw-client/src/models/PlayerState';
 import { RoundName } from '../../../dsptw-client/src/models/RoundName';
 import { CollectiefGeheugenState } from '../../../dsptw-client/src/models/Rounds/CollectiefGeheugenState';
 import { LowestTimeRound } from './LowestTimeRound';
+import { ViewType } from '../../../dsptw-client/src/models/ViewType';
 
 export class CollectiefGeheugen extends LowestTimeRound {
 
@@ -12,81 +13,82 @@ export class CollectiefGeheugen extends LowestTimeRound {
         this.state = {
             roundName: RoundName.CollectiefGeheugen,
             currentQuestionIndex: 0,
+            currentView: ViewType.Videos,
             questions: [
                 {
                     answers: [
                         {
-                            answer: 'Gebakken patatten',
+                            text: 'Gebakken patatten',
                             found: false,
                         },
                         {
-                            answer: 'Gekookte patatten',
+                            text: 'Gekookte patatten',
                             found: false,
                         },
                         {
-                            answer: 'Puree',
+                            text: 'Puree',
                             found: false,
                         },
                         {
-                            answer: 'Kroketten',
+                            text: 'Kroketten',
                             found: false,
                         },
                         {
-                            answer: 'Frietjes',
+                            text: 'Frietjes',
                             found: false,
                         },
                     ],
-                    videoUrl: 'aardappelen.mp4',
+                    videoUrl: 'http://techslides.com/demos/sample-videos/small.mp4',
                 },
                 {
                     answers: [
                         {
-                            answer: 'Gebakken patatten',
+                            text: 'Gebakken patatten',
                             found: false,
                         },
                         {
-                            answer: 'Gekookte patatten',
+                            text: 'Gekookte patatten',
                             found: false,
                         },
                         {
-                            answer: 'Puree',
+                            text: 'Puree',
                             found: false,
                         },
                         {
-                            answer: 'Kroketten',
+                            text: 'Kroketten',
                             found: false,
                         },
                         {
-                            answer: 'Frietjes',
+                            text: 'Frietjes',
                             found: false,
                         },
                     ],
-                    videoUrl: 'aardappelen.mp4',
+                    videoUrl: 'http://techslides.com/demos/sample-videos/small.mp4',
                 },
                 {
                     answers: [
                         {
-                            answer: 'Gebakken patatten',
+                            text: 'Gebakken patatten',
                             found: false,
                         },
                         {
-                            answer: 'Gekookte patatten',
+                            text: 'Gekookte patatten',
                             found: false,
                         },
                         {
-                            answer: 'Puree',
+                            text: 'Puree',
                             found: false,
                         },
                         {
-                            answer: 'Kroketten',
+                            text: 'Kroketten',
                             found: false,
                         },
                         {
-                            answer: 'Frietjes',
+                            text: 'Frietjes',
                             found: false,
                         },
                     ],
-                    videoUrl: 'aardappelen.mp4',
+                    videoUrl: 'http://techslides.com/demos/sample-videos/small.mp4',
                 },
             ],
         };
@@ -112,5 +114,19 @@ export class CollectiefGeheugen extends LowestTimeRound {
 
     public nextQuestion() {
         this.state.currentQuestionIndex++;
+    }
+
+    public setCurrentQuestion(questionIndex: number): void {
+        this.state.currentQuestionIndex = questionIndex;
+    }
+
+    public setView(view: ViewType) {
+        this.state.currentView = view;
+    }
+
+    public showAllAnswers(): void {
+        this.state.questions[this.state.currentQuestionIndex].answers.forEach(answer => {
+            answer.found = true;
+        })
     }
 }

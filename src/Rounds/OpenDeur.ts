@@ -100,4 +100,10 @@ export class OpenDeur extends LowestTimeRound {
         this.state.currentQuestionIndex++;
     }
 
+    public showAllAnswers(): void {
+        this.state.questions[this.state.currentQuestionIndex].answers.forEach(answer => {
+            answer.found = true;
+        })
+    }
+
 }

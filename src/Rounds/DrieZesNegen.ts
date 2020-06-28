@@ -1,6 +1,7 @@
 import { RoundName } from '../../../dsptw-client/src/models/RoundName';
 import { DrieZesNegenState } from '../../../dsptw-client/src/models/Rounds/DrieZesNegenState';
 import { Round } from './Round';
+import { log } from '../Log';
 
 export class DrieZesNegen extends Round {
 
@@ -91,5 +92,9 @@ export class DrieZesNegen extends Round {
 
     public nextQuestion() {
         this.state.currentQuestionIndex++;
+    }
+
+    public showAllAnswers(): void {
+        log.error('Cannot show all answers on round DrieZesNegen');
     }
 }

@@ -2,6 +2,7 @@ import { PlayerState } from '../../../dsptw-client/src/models/PlayerState';
 import { RoundName } from '../../../dsptw-client/src/models/RoundName';
 import { GallerijState } from '../../../dsptw-client/src/models/Rounds/GallerijState';
 import { LowestTimeRound } from './LowestTimeRound';
+import { log } from '../Log';
 
 export class Gallerij extends LowestTimeRound {
 
@@ -193,5 +194,9 @@ export class Gallerij extends LowestTimeRound {
         if (this.state.currentImageIndex < 9) {
             this.state.currentImageIndex++;
         }
+    }
+
+    public showAllAnswers(): void {
+        log.error('Cannot show all answers on round DrieZesNegen');
     }
 }
