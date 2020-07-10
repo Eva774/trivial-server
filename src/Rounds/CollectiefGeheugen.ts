@@ -8,89 +8,13 @@ export class CollectiefGeheugen extends LowestTimeRound {
 
     private state: CollectiefGeheugenState;
 
-    constructor(players: PlayerState[]) {
+    constructor(players: PlayerState[], questions: any) {
         super(players);
         this.state = {
             roundName: RoundName.CollectiefGeheugen,
             currentQuestionIndex: 0,
             currentView: ViewType.Videos,
-            questions: [
-                {
-                    answers: [
-                        {
-                            text: 'Gebakken patatten',
-                            found: false,
-                        },
-                        {
-                            text: 'Gekookte patatten',
-                            found: false,
-                        },
-                        {
-                            text: 'Puree',
-                            found: false,
-                        },
-                        {
-                            text: 'Kroketten',
-                            found: false,
-                        },
-                        {
-                            text: 'Frietjes',
-                            found: false,
-                        },
-                    ],
-                    videoUrl: 'http://techslides.com/demos/sample-videos/small.mp4',
-                },
-                {
-                    answers: [
-                        {
-                            text: 'Gebakken patatten',
-                            found: false,
-                        },
-                        {
-                            text: 'Gekookte patatten',
-                            found: false,
-                        },
-                        {
-                            text: 'Puree',
-                            found: false,
-                        },
-                        {
-                            text: 'Kroketten',
-                            found: false,
-                        },
-                        {
-                            text: 'Frietjes',
-                            found: false,
-                        },
-                    ],
-                    videoUrl: 'http://techslides.com/demos/sample-videos/small.mp4',
-                },
-                {
-                    answers: [
-                        {
-                            text: 'Gebakken patatten',
-                            found: false,
-                        },
-                        {
-                            text: 'Gekookte patatten',
-                            found: false,
-                        },
-                        {
-                            text: 'Puree',
-                            found: false,
-                        },
-                        {
-                            text: 'Kroketten',
-                            found: false,
-                        },
-                        {
-                            text: 'Frietjes',
-                            found: false,
-                        },
-                    ],
-                    videoUrl: 'http://techslides.com/demos/sample-videos/small.mp4',
-                },
-            ],
+            questions
         };
     }
 

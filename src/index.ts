@@ -9,7 +9,7 @@ import { log } from './Log';
 const server = new WebSocket.Server({ port: 8080 });
 const sockets: WebSocket[] = [];
 
-const game = new Game();
+const game = new Game('episode1');
 
 server.on('connection', (socket) => {
     log.debug('New socket connection incoming');

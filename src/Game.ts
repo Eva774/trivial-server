@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { EventEmitter } from 'events';
 import { GameState } from '../../dsptw-client/src/models/GameState';
 import { PlayerState } from '../../dsptw-client/src/models/PlayerState';
@@ -15,37 +16,40 @@ import { Round } from './Rounds/Round';
 export class Game extends EventEmitter {
 
     // TODO get initial state from config
-    private players: PlayerState[] = [
-        {
-            name: 'Nikki',
-            time: 61000,
-            cameraLink: "https://sebastiaanjansen.be/"
-        },
-        {
-            name: 'Mei Li',
-            time: 60000,
-        },
-        {
-            name: 'Victor',
-            time: 69000,
-        },
-    ];
+    private players: PlayerState[];
     private roundIndex: number = 0; // TODO read from config to skip rounds
-    private rounds = [
-        new DrieZesNegen(),
-        new OpenDeur(this.players),
-        new Puzzel(this.players),
-        new Gallerij(this.players),
-        new CollectiefGeheugen(this.players),
-        new Finale(this.players),
-    ];
+    private rounds = Array<Round>();
     private timerIsRunning: boolean = false;
     // private timerTimeout?: NodeJS.Timeout;
     private timerInterval?: NodeJS.Timer;
     // private timerStarted: number = 0;
 
-    constructor() {
+    constructor(filename: string) {
         super();
+        this.rounds = [];
+        try {
+            log.info(`Loading "./episodes/${filename}.json"`)
+            const episode = JSON.parse(fs.readFileSync(`./episodes/${filename}.json`).toString());
+            this.players = Object.values(episode.players)
+                .map(player => (
+                    {
+                        time: 60000,
+                        ...player as { name: string, cameraLink?: string }
+                    }))
+
+            this.rounds = [
+                new DrieZesNegen(episode.rounds.drieZesNegen),
+                new OpenDeur(this.players, episode.rounds.openDeur),
+                new Puzzel(this.players, episode.rounds.puzzel),
+                new Gallerij(this.players, episode.rounds.gallerij),
+                new CollectiefGeheugen(this.players, episode.rounds.collectiefGeheugen),
+                new Finale(this.players, episode.rounds.finale),
+            ]
+            log.info(`Episode ${filename} loaded successfully`)
+
+        } catch (error) {
+            throw "Invalid episode selected.";
+        }
     }
 
     public startTime() {
