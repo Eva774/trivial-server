@@ -42,7 +42,10 @@ export class DrieZesNegen extends Round {
     }
 
     public nextQuestion() {
-        this.state.currentQuestionIndex++;
+        log.debug(this.state.currentQuestionIndex)
+        if (this.state.currentQuestionIndex < 11) {
+            this.state.currentQuestionIndex++;
+        }
     }
 
     public showAllAnswers(): void {

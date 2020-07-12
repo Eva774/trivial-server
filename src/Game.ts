@@ -65,7 +65,13 @@ export class Game extends EventEmitter {
         // this.timerStarted = Date.now();
         // this.timerTimeout = setTimeout(this.stopTime.bind(this), this.getCurrentPlayer().time);
         this.timerInterval = setInterval(() => {
-            this.getCurrentPlayer().time -= 200;
+            const newTime = this.getCurrentPlayer().time -= 200;
+            if (newTime <= 0) {
+                this.getCurrentPlayer().time = 0;
+                this.stopTime();
+            } else {
+                this.getCurrentPlayer().time = newTime;
+            }
             this.emitUpdate();
         }, 200);
     }
@@ -149,6 +155,7 @@ export class Game extends EventEmitter {
         if (this.roundIndex + 1 < this.rounds.length) {
             this.roundIndex++;
             const currentRound = this.getCurrentRound();
+            // TODO fix finale only check
             if (currentRound instanceof LowestTimeRound) {
                 currentRound.init();
             }
