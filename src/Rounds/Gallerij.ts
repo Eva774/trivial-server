@@ -12,14 +12,14 @@ export class Gallerij extends LowestTimeRound {
         super(players);
         this.state = {
             roundName: RoundName.Gallerij,
-            currentImageIndex: 0,
+            currentImageIndex: -1,
             currentQuestionSeriesIndex: 0,
             questions
         };
     }
 
-    public correctAnswer() {
-        this.state.questions[this.state.currentQuestionSeriesIndex][this.state.currentImageIndex].found = true;
+    public correctAnswer(imageIndex: number) {
+        this.state.questions[this.state.currentQuestionSeriesIndex][imageIndex].found = true;
         return { scoreForPlayer: 10 };
     }
 
@@ -30,13 +30,15 @@ export class Gallerij extends LowestTimeRound {
     public nextQuestion() {
         if (this.state.currentQuestionSeriesIndex < 2) {
             this.state.currentQuestionSeriesIndex++;
-            this.state.currentImageIndex = 0;
+            this.state.currentImageIndex = -1;
         }
     }
 
     public nextImage() {
         if (this.state.currentImageIndex < 9) {
             this.state.currentImageIndex++;
+        } else {
+            this.state.currentImageIndex = -1;
         }
     }
 

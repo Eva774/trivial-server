@@ -12,6 +12,7 @@ import { LowestTimeRound } from './Rounds/LowestTimeRound';
 import { OpenDeur } from './Rounds/OpenDeur';
 import { Puzzel } from './Rounds/Puzzel';
 import { Round } from './Rounds/Round';
+import { Overzicht } from './Rounds/Overzicht';
 
 export class Game extends EventEmitter {
 
@@ -30,20 +31,26 @@ export class Game extends EventEmitter {
         try {
             log.info(`Loading "./episodes/${filename}.json"`)
             const episode = JSON.parse(fs.readFileSync(`./episodes/${filename}.json`).toString());
-            this.players = Object.values(episode.players)
-                .map(player => (
-                    {
-                        time: 60000,
-                        ...player as { name: string, cameraLink?: string }
-                    }))
-
+            // this.players = Object.values(episode.players)
+            //     .map(player => (
+            //         {
+            //             time: 60000,
+            //             ...player as { name: string, cameraLink?: string, time }
+            //         }))
+            this.players = episode.players;
             this.rounds = [
+                new Overzicht,
                 new DrieZesNegen(episode.rounds.drieZesNegen),
+                new Overzicht,
                 new OpenDeur(this.players, episode.rounds.openDeur),
+                new Overzicht,
                 new Puzzel(this.players, episode.rounds.puzzel),
+                new Overzicht,
                 new Gallerij(this.players, episode.rounds.gallerij),
+                new Overzicht,
                 new CollectiefGeheugen(this.players, episode.rounds.collectiefGeheugen),
                 new Finale(this.players, episode.rounds.finale),
+                new Overzicht,
             ]
             log.info(`Episode ${filename} loaded successfully`)
 
@@ -195,7 +202,12 @@ export class Game extends EventEmitter {
     }
 
     private addTimeToPlayer(player: number, time: number) {
-        this.players[player].time += time * 1000;
+        let newTime = this.players[player].time + time * 1000;
+        if (newTime <= 0) {
+            this.stopTime();
+            newTime = 0;
+        }
+        this.players[player].time = newTime;
     }
 
     private getCurrentRound(): Round {

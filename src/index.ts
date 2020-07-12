@@ -69,7 +69,7 @@ server.on('connection', (socket) => {
         }
     });
     // TODO make consistent with other events
-    socket.send(JSON.stringify({ version: '0.1' }));
+    socket.send(JSON.stringify({ version: '0.2' }));
     socket.send(JSON.stringify({
         event: SocketEvent.GameStateUpdate,
         data: game.getState(),
