@@ -1,5 +1,5 @@
 # De slimste Preparees ter wereld - Server
-Server application made in typescript that accompanyies [dsptw-client](https://github.com/drskunk/dsptw-client).
+Server application made in typescript that accompanies [dsptw-client](https://github.com/drskunk/dsptw-client).
 
 Made by [DrSkunk](https://github.com/drskunk/) and [Robbertc5](https://github.com/robbertc5/).
 
