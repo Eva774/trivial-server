@@ -6,21 +6,20 @@ import { SocketCommand } from '../../dsptw-client/src/models/SocketCommand';
 import { SocketEvent } from '../../dsptw-client/src/models/SocketEvent';
 import { Game } from './Game';
 import { log } from './Log';
+import { version } from '../package.json';
+import { config } from './Config';
 
 (async () => {
     const app = express();
-    app.use('/static', express.static('/mnt/d/DSPTW/static'))
-    app.use(express.static('../dsptw-client/build'))
+    app.use('/static', express.static(config.staticAssets))
+    app.use(express.static(config.staticClient))
     const server = http.createServer(app);
     const socketServer = new WebSocket.Server({ server })
 
-    // TODO set port in config
-    // const socketServer = new WebSocket.Server({ port: 8080 });
     const sockets: WebSocket[] = [];
 
     const game = new Game();
-    // TODO load episode from config or start parameter
-    await game.loadEpisode(2);
+    await game.loadEpisode(config.episode);
 
     socketServer.on('connection', (socket) => {
         log.debug('New socket connection incoming');
@@ -82,8 +81,10 @@ import { log } from './Log';
                     log.warn('not a valid socket command');
             }
         });
-        // TODO make consistent with other events
-        socket.send(JSON.stringify({ version: '0.2' }));
+        socket.send(JSON.stringify({
+            event: SocketEvent.Version,
+            data: version
+        }));
         socket.send(JSON.stringify({
             event: SocketEvent.GameStateUpdate,
             data: game.getState(),
@@ -108,7 +109,7 @@ import { log } from './Log';
         }
     }
 
-    server.listen(process.env.PORT || 8080, () => {
+    server.listen(config.port, () => {
         const address = server.address() as AddressInfo;
         if (!address) {
             log.error('Error creating server');

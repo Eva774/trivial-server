@@ -1,5 +1,4 @@
 import fs from 'fs';
-import fetch from 'node-fetch';
 import { EventEmitter } from 'events';
 import { GameState } from '../../dsptw-client/src/models/GameState';
 import { PlayerState } from '../../dsptw-client/src/models/PlayerState';
@@ -14,6 +13,7 @@ import { OpenDeur } from './Rounds/OpenDeur';
 import { Puzzel } from './Rounds/Puzzel';
 import { Round } from './Rounds/Round';
 import { Overzicht } from './Rounds/Overzicht';
+import { config } from './Config';
 
 export class Game extends EventEmitter {
 
@@ -35,11 +35,9 @@ export class Game extends EventEmitter {
     public async loadEpisode(episodeNumber: number) {
         try {
             // TODO config file for static mount location
-            log.info(`Loading from /mnt/d/DSPTW/static/aflevering${episodeNumber}`)
-            const episode = JSON.parse(fs.readFileSync(`/mnt/d/DSPTW/static/aflevering${episodeNumber}/questions.json`).toString());
-            const finale = JSON.parse(fs.readFileSync(`/mnt/d/DSPTW/static/finale.json`).toString());
-
-
+            log.info(`Loading from ${config.staticAssets}/aflevering${episodeNumber}`)
+            const episode = JSON.parse(fs.readFileSync(`${config.staticAssets}/aflevering${episodeNumber}/questions.json`).toString());
+            const finale = JSON.parse(fs.readFileSync(`${config.staticAssets}/finale.json`).toString());
 
             this.players = [
                 {
@@ -174,7 +172,6 @@ export class Game extends EventEmitter {
         if (this.roundIndex + 1 < this.rounds.length) {
             this.roundIndex++;
             const currentRound = this.getCurrentRound();
-            // TODO fix finale only check
             if (currentRound instanceof LowestTimeRound || currentRound instanceof Finale) {
                 currentRound.init();
             }
@@ -214,6 +211,7 @@ export class Game extends EventEmitter {
     public getState(): GameState {
         const currentRound = this.getCurrentRound();
         return {
+            episode: config.episode,
             currentPlayers: (currentRound instanceof Finale) ? currentRound.currentPlayerIds : [0, 1, 2],
             currentPlayer: this.getCurrentRound().getCurrentPlayerId(),
             players: this.players,
