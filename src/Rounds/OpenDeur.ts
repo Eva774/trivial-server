@@ -14,7 +14,11 @@ export class OpenDeur extends LowestTimeRound {
             roundName: RoundName.OpenDeur,
             currentQuestionIndex: 0,
             currentView: ViewType.Videos,
-            questions
+            questions: questions.map((question: any) =>
+                ({
+                    question: question.question,
+                    answers: question.answers.map((answer: any) => ({ text: answer, found: false }))
+                }))
         };
     }
 

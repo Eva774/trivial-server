@@ -14,7 +14,9 @@ export class CollectiefGeheugen extends LowestTimeRound {
             roundName: RoundName.CollectiefGeheugen,
             currentQuestionIndex: 0,
             currentView: ViewType.Videos,
-            questions
+            questions: questions.map((answers: any[]) => ({
+                answers: answers.map((answer: any) => ({ text: answer, found: false }))
+            }))
         };
     }
 

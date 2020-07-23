@@ -14,13 +14,17 @@ export class Gallerij extends LowestTimeRound {
             roundName: RoundName.Gallerij,
             currentImageIndex: -1,
             currentQuestionSeriesIndex: 0,
-            questions
+            questions: questions.map((series: any[]) =>
+                series.map((answer: any) =>
+                    ({ answer, found: false })
+                )
+            )
         };
     }
 
     public correctAnswer(imageIndex: number) {
         this.state.questions[this.state.currentQuestionSeriesIndex][imageIndex].found = true;
-        return { scoreForPlayer: 10 };
+        return { scoreForPlayer: 15 };
     }
 
     public getState() {

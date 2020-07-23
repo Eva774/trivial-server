@@ -1,4 +1,5 @@
 import fs from 'fs';
+import fetch from 'node-fetch';
 import { EventEmitter } from 'events';
 import { GameState } from '../../dsptw-client/src/models/GameState';
 import { PlayerState } from '../../dsptw-client/src/models/PlayerState';
@@ -25,36 +26,54 @@ export class Game extends EventEmitter {
     private timerInterval?: NodeJS.Timer;
     // private timerStarted: number = 0;
 
-    constructor(filename: string) {
+    constructor() {
         super();
         this.rounds = [];
+        this.players = [];
+    }
+
+    public async loadEpisode(episodeNumber: number) {
         try {
-            log.info(`Loading "./episodes/${filename}.json"`)
-            const episode = JSON.parse(fs.readFileSync(`./episodes/${filename}.json`).toString());
-            // this.players = Object.values(episode.players)
-            //     .map(player => (
-            //         {
-            //             time: 60000,
-            //             ...player as { name: string, cameraLink?: string, time }
-            //         }))
-            this.players = episode.players;
+            // TODO config file for static mount location
+            log.info(`Loading from /mnt/d/DSPTW/static/aflevering${episodeNumber}`)
+            const episode = JSON.parse(fs.readFileSync(`/mnt/d/DSPTW/static/aflevering${episodeNumber}/questions.json`).toString());
+            const finale = JSON.parse(fs.readFileSync(`/mnt/d/DSPTW/static/finale.json`).toString());
+
+
+
+            this.players = [
+                {
+                    time: 60000,
+                    name: "player 1"
+                },
+                {
+                    time: 60000,
+                    name: "player 2"
+                },
+                {
+                    time: 60000,
+                    name: "player 3"
+                }
+            ]
             this.rounds = [
                 new Overzicht,
-                new DrieZesNegen(episode.rounds.drieZesNegen),
+                new DrieZesNegen(episode.drieZesNegen),
                 new Overzicht,
-                new OpenDeur(this.players, episode.rounds.openDeur),
+                new OpenDeur(this.players, episode.openDeur),
                 new Overzicht,
-                new Puzzel(this.players, episode.rounds.puzzel),
+                new Puzzel(this.players, episode.puzzel),
                 new Overzicht,
-                new Gallerij(this.players, episode.rounds.gallerij),
+                new Gallerij(this.players, episode.gallerij),
                 new Overzicht,
-                new CollectiefGeheugen(this.players, episode.rounds.collectiefGeheugen),
-                new Finale(this.players, episode.rounds.finale),
+                new CollectiefGeheugen(this.players, episode.collectiefGeheugen),
+                new Overzicht,
+                new Finale(this.players, finale),
                 new Overzicht,
             ]
-            log.info(`Episode ${filename} loaded successfully`)
-
+            log.info(`Episode ${episodeNumber} loaded successfully`)
+            log.info(`First Finale question is "${finale.questions.splice(finale.questionIndex)[0].question}"`)
         } catch (error) {
+            log.error(error)
             throw "Invalid episode selected.";
         }
     }
@@ -156,7 +175,7 @@ export class Game extends EventEmitter {
             this.roundIndex++;
             const currentRound = this.getCurrentRound();
             // TODO fix finale only check
-            if (currentRound instanceof LowestTimeRound) {
+            if (currentRound instanceof LowestTimeRound || currentRound instanceof Finale) {
                 currentRound.init();
             }
 
@@ -184,6 +203,11 @@ export class Game extends EventEmitter {
 
     public setPlayerTime(playerId: number, time: number) {
         this.players[playerId].time = time;
+        this.emitUpdate();
+    }
+
+    public setPlayerCameraLink(playerId: number, cameraLink: string) {
+        this.players[playerId].cameraLink = cameraLink;
         this.emitUpdate();
     }
 

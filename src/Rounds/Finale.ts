@@ -6,18 +6,26 @@ import { Round } from './Round';
 
 export class Finale extends Round {
 
-    public currentPlayerIds: number[] = [0, 1];
+    public currentPlayerIds: number[] = [0, 1, 2];
     private state: FinaleState;
     private currentAnsweringPlayerIdIndex = 0;
     private players: PlayerState[];
 
-    constructor(players: PlayerState[], questions: any) {
+    constructor(players: PlayerState[], finale: any) {
         super();
         this.players = players;
         this.state = {
             roundName: RoundName.Finale,
             currentQuestionIndex: 0,
-            questions
+            questions: finale.questions
+                .slice(finale.questionIndex)
+                .map((question: { question: any; answers: any[]; }) => ({
+                    question: question.question,
+                    answers: question.answers.map((answer: any) => ({
+                        text: answer,
+                        found: false
+                    }))
+                }))
         };
     }
 
@@ -36,6 +44,7 @@ export class Finale extends Round {
 
     public nextQuestion() {
         this.state.currentQuestionIndex++;
+        log.info('Current Finale question index: ' + this.state.currentQuestionIndex)
     }
 
     public calculateNextStartingPlayer() {
@@ -61,15 +70,18 @@ export class Finale extends Round {
         log.debug('Selecting final players, removing player with HIGHEST time');
         // TODO add select lowest or highest in config
         // get ID of player with highest time
-        let playerWithLowestTimeId = 0;
+        let playerWithHighestTimeId = 0;
         for (let i = 1; i < this.players.length; i++) {
-            if (this.players[i].time > this.players[playerWithLowestTimeId].time) {
-                playerWithLowestTimeId = i;
+            if (this.players[i].time > this.players[playerWithHighestTimeId].time) {
+                playerWithHighestTimeId = i;
             }
         }
-        this.currentPlayerIds = this.currentPlayerIds.filter((player) => player !== playerWithLowestTimeId);
+        console.log("currentplayerids finale1", this.currentPlayerIds)
+        this.currentPlayerIds = this.currentPlayerIds.filter((playerId) => playerId !== playerWithHighestTimeId);
 
-        const winner = this.players[playerWithLowestTimeId];
+        console.log("currentplayerids finale2", this.currentPlayerIds)
+
+        const winner = this.players[playerWithHighestTimeId];
         log.info('player', winner.name, 'won with a time of', winner.time);
     }
 
