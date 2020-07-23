@@ -1,7 +1,14 @@
 # De slimste Preparees ter wereld - Server
-Server application accompanying [dsptw-client](https://github.com/drskunk/dsptw-client).
+Server application made in typescript that accompanyies [dsptw-client](https://github.com/drskunk/dsptw-client).
 
 Made by [DrSkunk](https://github.com/drskunk/) and [Robbertc5](https://github.com/robbertc5/).
+
+## Installation
+This requires [NodeJS](https://nodejs.org/en/) to be installed.
+
+Clone `dsptw-server` into a directory and `cd` into it. Then run the command `npm install` to install all dependencies.
+
+To start the application after setting the questions and the config file, run `npm start`.
 
 ## Config file
 `config.json`
