@@ -77,23 +77,26 @@ export class Game extends EventEmitter {
     }
 
     public startTime() {
-        log.debug('startTime');
-        this.timerIsRunning = true;
-        // this.timerStarted = Date.now();
-        // this.timerTimeout = setTimeout(this.stopTime.bind(this), this.getCurrentPlayer().time);
-        this.timerInterval = setInterval(() => {
-            const newTime = this.getCurrentPlayer().time -= 200;
-            if (newTime <= 0) {
-                this.getCurrentPlayer().time = 0;
-                this.stopTime();
-            } else {
-                this.getCurrentPlayer().time = newTime;
-            }
-            this.emitUpdate();
-        }, 200);
+        if (!(this.getCurrentRound() instanceof Overzicht)) {
+            log.debug('startTime');
+            this.timerIsRunning = true;
+            // this.timerStarted = Date.now();
+            // this.timerTimeout = setTimeout(this.stopTime.bind(this), this.getCurrentPlayer().time);
+            this.timerInterval = setInterval(() => {
+                const newTime = this.getCurrentPlayer().time -= 200;
+                if (newTime <= 0) {
+                    this.getCurrentPlayer().time = 0;
+                    this.stopTime();
+                } else {
+                    this.getCurrentPlayer().time = newTime;
+                }
+                this.emitUpdate();
+            }, 200);
+        }
     }
 
     public stopTime() {
+        // TODO auto stop time when last answer is found
         log.debug('stopTime');
         this.timerIsRunning = false;
         // this.getCurrentPlayer().time -= (Date.now() - this.timerStarted);
@@ -168,6 +171,7 @@ export class Game extends EventEmitter {
     }
 
     public nextRound() {
+        // TODO previous round button
         log.debug('nextRound');
         if (this.roundIndex + 1 < this.rounds.length) {
             this.roundIndex++;
