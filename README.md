@@ -7,8 +7,12 @@ Made by [DrSkunk](https://github.com/drskunk/) and [Robbertc5](https://github.co
 This requires [NodeJS](https://nodejs.org/en/) to be installed.
 
 Clone `dsptw-server` into a directory and `cd` into it. Then run the command `npm install` to install all dependencies.
-
 To start the application after setting the questions and the config file, run `npm start`.
+
+## Client installation
+Clone `dsptw-client` into the same directory as where you cloned the server and `cd` into it. Then run the command `npm install` to install all dependencies.
+Then build the client files with `npm run build`.
+
 
 ## Config file
 `config.json`
@@ -29,26 +33,38 @@ To start the application after setting the questions and the config file, run `n
 - static
     - finale.json
     - aflevering1
+        - questions.json
         - collectiefgeheugen
             - 1.mp4
             - 2.mp4
             - 3.mp4
         - gallerij
-            - 1.png
-            - 2.png
-            - 3.png
-            - 4.png
-            - 5.png
-            - 6.png
-            - 7.png
-            - 8.png
-            - 9.png
-            - 10.png
+            - 1
+                - 1.png
+                - 2.png
+                - 3.png
+                - 4.png
+                - 5.png
+                - 6.png
+                - 7.png
+                - 8.png
+                - 9.png
+                - 10.png
+            - 2
+                - 1.png
+                - 2.png
+                - ...
+                - 10.png
+            - 3
+                - 1.png
+                - 2.png
+                - ...
+                - 10.png
         - opendeur
             - 1.mp4
             - 2.mp4
             - 3.mp4
-        - questions.json
+
 
 `staticClient` is where you built the client files. if you checked out the repositories in the same directory this will be `"../dsptw-client/build"`.
 
