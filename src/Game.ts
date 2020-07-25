@@ -35,7 +35,7 @@ export class Game extends EventEmitter {
     public async loadEpisode(episodeNumber: number) {
         try {
             // TODO config file for static mount location
-            log.info(`Loading from ${config.staticAssets}/aflevering${episodeNumber}`)
+            log.info(`Loading episode from ${config.staticAssets}/aflevering${episodeNumber}`)
             const episode = JSON.parse(fs.readFileSync(`${config.staticAssets}/aflevering${episodeNumber}/questions.json`).toString());
             const finale = JSON.parse(fs.readFileSync(`${config.staticAssets}/finale.json`).toString());
 

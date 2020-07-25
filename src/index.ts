@@ -115,7 +115,8 @@ import { config } from './Config';
             log.error('Error creating server');
             process.exit(-1);
         } else {
-            log.info(`De slimste Preparees server started on port ${address.port}`);
+            log.info(`De slimste Preparees server with players view started on http://localhost:${address.port}`);
+            log.info(`Presenter view available on http://localhost:${address.port}/?presenter=true`);
         }
     });
 })();
