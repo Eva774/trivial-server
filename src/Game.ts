@@ -7,7 +7,7 @@ import { log } from './Log';
 import { CollectiefGeheugen } from './Rounds/CollectiefGeheugen';
 import { DrieZesNegen } from './Rounds/DrieZesNegen';
 import { Finale } from './Rounds/Finale';
-import { Gallerij } from './Rounds/Gallerij';
+import { Galerij } from './Rounds/Galerij';
 import { LowestTimeRound } from './Rounds/LowestTimeRound';
 import { OpenDeur } from './Rounds/OpenDeur';
 import { Puzzel } from './Rounds/Puzzel';
@@ -59,7 +59,7 @@ export class Game extends EventEmitter {
                 new Overzicht,
                 new Puzzel(this.players, episode.puzzel),
                 new Overzicht,
-                new Gallerij(this.players, episode.gallerij),
+                new Galerij(this.players, episode.galerij),
                 new Overzicht,
                 new CollectiefGeheugen(this.players, episode.collectiefGeheugen),
                 new Overzicht,
@@ -157,10 +157,10 @@ export class Game extends EventEmitter {
     public nextImage() {
         log.debug('nextImage');
         const currentRound = this.getCurrentRound();
-        if (currentRound instanceof Gallerij) {
+        if (currentRound instanceof Galerij) {
             currentRound.nextImage();
         } else {
-            log.warn('calling nextImage not on round "Gallerij"');
+            log.warn('calling nextImage not on round "Galerij"');
         }
         this.emitUpdate();
     }

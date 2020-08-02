@@ -1,17 +1,17 @@
 import { PlayerState } from '../../../dsptw-client/src/models/PlayerState';
 import { RoundName } from '../../../dsptw-client/src/models/RoundName';
-import { GallerijState } from '../../../dsptw-client/src/models/Rounds/GallerijState';
+import { GalerijState } from '../../../dsptw-client/src/models/Rounds/GalerijState';
 import { LowestTimeRound } from './LowestTimeRound';
 import { log } from '../Log';
 
-export class Gallerij extends LowestTimeRound {
+export class Galerij extends LowestTimeRound {
 
-    private state: GallerijState;
+    private state: GalerijState;
 
     constructor(players: PlayerState[], questions: any) {
         super(players);
         this.state = {
-            roundName: RoundName.Gallerij,
+            roundName: RoundName.Galerij,
             currentImageIndex: -1,
             currentQuestionSeriesIndex: 0,
             questions: questions.map((series: any[]) =>

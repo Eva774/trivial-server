@@ -40,7 +40,7 @@ Then build the client files with `npm run build`.
             - 1.mp4
             - 2.mp4
             - 3.mp4
-        - gallerij
+        - galerij
             - 1
                 - 1.png
                 - 2.png
@@ -285,7 +285,7 @@ The `Puzzel` round grid is shuffled with a seed so that every time you restart t
             }
         ]
     ],
-    "gallerij": [
+    "galerij": [
         [
             "",
             "",
