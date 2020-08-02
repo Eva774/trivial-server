@@ -59,6 +59,9 @@ import { config } from './Config';
                 case SocketCommand.SetView:
                     game.setView(data.view);
                     break;
+                case SocketCommand.PreviousRound:
+                    game.previousRound();
+                    break;
                 case SocketCommand.NextRound:
                     game.nextRound();
                     break;

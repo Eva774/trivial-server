@@ -17,9 +17,8 @@ import { config } from './Config';
 
 export class Game extends EventEmitter {
 
-    // TODO get initial state from config
     private players: PlayerState[];
-    private roundIndex: number = 0; // TODO read from config to skip rounds
+    private roundIndex: number = 0;
     private rounds = Array<Round>();
     private timerIsRunning: boolean = false;
     // private timerTimeout?: NodeJS.Timeout;
@@ -34,7 +33,6 @@ export class Game extends EventEmitter {
 
     public async loadEpisode(episodeNumber: number) {
         try {
-            // TODO config file for static mount location
             log.info(`Loading episode from ${config.staticAssets}/aflevering${episodeNumber}`)
             const episode = JSON.parse(fs.readFileSync(`${config.staticAssets}/aflevering${episodeNumber}/questions.json`).toString());
             const finale = JSON.parse(fs.readFileSync(`${config.staticAssets}/finale.json`).toString());
@@ -96,10 +94,8 @@ export class Game extends EventEmitter {
     }
 
     public stopTime() {
-        // TODO auto stop time when last answer is found
         log.debug('stopTime');
         this.timerIsRunning = false;
-        // this.getCurrentPlayer().time -= (Date.now() - this.timerStarted);
         if (this.timerInterval) {
             clearTimeout(this.timerInterval);
         }
@@ -147,7 +143,6 @@ export class Game extends EventEmitter {
     public setView(view: ViewType) {
         log.debug('setView', view);
         const currentRound = this.getCurrentRound();
-        // TODO add other rounds using the image view
         if (currentRound instanceof OpenDeur) {
             (currentRound as OpenDeur).setView(view);
             this.emitUpdate();
@@ -170,8 +165,19 @@ export class Game extends EventEmitter {
         this.emitUpdate();
     }
 
+    public previousRound() {
+        log.debug('previousRound')
+        if (this.roundIndex > 0) {
+            this.roundIndex--;
+            const currentRound = this.getCurrentRound();
+            if (currentRound instanceof LowestTimeRound || currentRound instanceof Finale) {
+                currentRound.init();
+            }
+        }
+        this.emitUpdate();
+    }
+
     public nextRound() {
-        // TODO previous round button
         log.debug('nextRound');
         if (this.roundIndex + 1 < this.rounds.length) {
             this.roundIndex++;
