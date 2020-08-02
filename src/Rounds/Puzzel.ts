@@ -33,7 +33,7 @@ export class Puzzel extends LowestTimeRound {
 
         this.state = {
             roundName: RoundName.Puzzel,
-            currentPuzzleIndex: 0,
+            currentPuzzleIndex: -1,
             puzzles: allPuzzles
         };
     }

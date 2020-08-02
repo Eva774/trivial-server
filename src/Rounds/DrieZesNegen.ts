@@ -12,7 +12,7 @@ export class DrieZesNegen extends Round {
         super();
         this.state = {
             roundName: RoundName.DrieZesNegen,
-            currentQuestionIndex: 0,
+            currentQuestionIndex: -1,
             questions
         };
     }
@@ -42,9 +42,7 @@ export class DrieZesNegen extends Round {
     }
 
     public nextQuestion() {
-        if (this.state.currentQuestionIndex < 11) {
-            this.state.currentQuestionIndex++;
-        }
+        this.state.currentQuestionIndex++;
     }
 
     public showAllAnswers(): void {
