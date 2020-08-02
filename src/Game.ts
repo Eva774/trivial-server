@@ -221,6 +221,10 @@ export class Game extends EventEmitter {
             players: this.players,
             roundState: this.getCurrentRound().getState(),
             timerIsRunning: this.timerIsRunning,
+            presenter: {
+                name: config.presenterName,
+                cameraLink: config.presenterCamera,
+            }
         };
     }
 

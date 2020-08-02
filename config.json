@@ -2,5 +2,7 @@
     "port": 8080,
     "staticAssets": "/mnt/d/DSPTW/static",
     "staticClient": "../dsptw-client/build",
-    "episode": 2
+    "episode": 1,
+    "presenterName": "Erica",
+    "presenterCamera": "https://obs.ninja/?view="
 }

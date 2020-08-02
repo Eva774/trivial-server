@@ -21,7 +21,9 @@ Then build the client files with `npm run build`.
     "port": 8080,
     "staticAssets": "your_static_folder",
     "staticClient": "your_built_client_files",
-    "episode": 1
+    "episode": 1,
+    "presenterName": "Erica",
+    "presenterCamera": "https://obs.ninja/?view="
 }
 ```
 `port` is the port where the websocket server will be listening as well as the webserver for serving the client and static files.
@@ -69,6 +71,10 @@ Then build the client files with `npm run build`.
 `staticClient` is where you built the client files. if you checked out the repositories in the same directory this will be `"../dsptw-client/build"`.
 
 `episode` is how you choose which episode from the static folder will be used. `1` will use `aflevering1` for example.
+
+`presenterName` is what is shown in the interface under the camera view of the presenter.
+
+`presenterCamera` is an iframe which commonly uses obs.ninja so show a camera feed. It can also be an image link to show a still image.
 
 ## Setting final questions
 `finale.json` in the static assets folder contains all the questions that will be used in the `Finale` round. This is independent from episodes. In order to prevent the same questions from being asked, the `questionIndex` is used. This sets the index for the first question that will be asked in the quiz.
