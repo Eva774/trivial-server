@@ -8,6 +8,8 @@ type ConfigFile = {
     episode: number,
     presenterName: string,
     presenterCamera: string,
+    juryName: string,
+    juryCamera: string,
 }
 
 function eqSet(a: Set<any>, b: Set<any>) {
@@ -24,7 +26,7 @@ class Config {
 
     constructor() {
         this.config = JSON.parse(fs.readFileSync('./config.json').toString()) as ConfigFile;
-        const keys = new Set(['port', 'staticAssets', 'staticClient', 'episode', 'presenterName', 'presenterCamera']);
+        const keys = new Set(['port', 'staticAssets', 'staticClient', 'episode', 'presenterName', 'presenterCamera', 'juryName', 'juryCamera']);
         if (!eqSet(keys, new Set(Object.keys(this.config)))) {
             throw new Error('Settings file incomplete, the following settings must be set in config.json: ' + Array.from(keys).join(', '))
         }

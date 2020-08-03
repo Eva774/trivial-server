@@ -21,9 +21,8 @@ export class Game extends EventEmitter {
     private roundIndex: number = 0;
     private rounds = Array<Round>();
     private timerIsRunning: boolean = false;
-    // private timerTimeout?: NodeJS.Timeout;
     private timerInterval?: NodeJS.Timer;
-    // private timerStarted: number = 0;
+    private juryStatus: boolean = false;
 
     constructor() {
         super();
@@ -179,6 +178,7 @@ export class Game extends EventEmitter {
 
     public nextRound() {
         log.debug('nextRound');
+        this.hideJury();
         if (this.roundIndex + 1 < this.rounds.length) {
             this.roundIndex++;
             const currentRound = this.getCurrentRound();
@@ -218,6 +218,16 @@ export class Game extends EventEmitter {
         this.emitUpdate();
     }
 
+    public showJury() {
+        this.juryStatus = true;
+        this.emitUpdate();
+    }
+
+    public hideJury() {
+        this.juryStatus = false;
+        this.emitUpdate();
+    }
+
     public getState(): GameState {
         const currentRound = this.getCurrentRound();
         return {
@@ -230,6 +240,11 @@ export class Game extends EventEmitter {
             presenter: {
                 name: config.presenterName,
                 cameraLink: config.presenterCamera,
+            },
+            jury: {
+                show: this.juryStatus,
+                name: config.juryName,
+                cameraLink: config.juryCamera,
             }
         };
     }

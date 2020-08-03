@@ -4,5 +4,7 @@
     "staticClient": "../dsptw-client/build",
     "episode": 1,
     "presenterName": "Erica",
-    "presenterCamera": "https://obs.ninja/?view="
+    "presenterCamera": "https://obs.ninja/?view=",
+    "juryName": "Jerommeke",
+    "juryCamera": "https://obs.ninja/?view="
 }

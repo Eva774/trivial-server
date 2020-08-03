@@ -80,6 +80,12 @@ import { config } from './Config';
                 case SocketCommand.SetPlayerCameraLink:
                     game.setPlayerCameraLink(data.playerIndex, data.cameraLink);
                     break;
+                case SocketCommand.ShowJury:
+                    game.showJury();
+                    break;
+                case SocketCommand.HideJury:
+                    game.hideJury();
+                    break;
                 default:
                     log.warn('not a valid socket command');
             }
