@@ -25,6 +25,7 @@ export class Game extends EventEmitter {
     private timerIsRunning: boolean = false;
     private timerInterval?: NodeJS.Timer;
     private juryStatus: boolean = false;
+    private showAnswers: boolean = false;
 
     constructor() {
         super();
@@ -135,12 +136,13 @@ export class Game extends EventEmitter {
 
     public showAllAnswers() {
         log.debug('Showing all unanswered answers')
-        this.getCurrentRound().showAllAnswers();
+        this.showAnswers = true;
         this.emitGameStateUpdate();
     }
 
     public nextQuestion() {
         log.debug('nextQuestion');
+        this.showAnswers = false;
         this.getCurrentRound().nextQuestion();
         this.emitGameStateUpdate();
     }
@@ -161,6 +163,7 @@ export class Game extends EventEmitter {
 
     public setView(view: ViewType) {
         log.debug('setView', view);
+        this.showAnswers = false;
         const currentRound = this.getCurrentRound();
         if (currentRound instanceof OpenDeur) {
             (currentRound as OpenDeur).setView(view);
@@ -198,6 +201,7 @@ export class Game extends EventEmitter {
 
     public nextRound() {
         log.debug('nextRound');
+        this.showAnswers = false;
         this.hideJury();
         if (this.roundIndex + 1 < this.rounds.length) {
             this.roundIndex++;
@@ -269,7 +273,8 @@ export class Game extends EventEmitter {
                 show: this.juryStatus,
                 name: config.juryName,
                 cameraLink: config.juryCamera,
-            }
+            },
+            showAnswers: this.showAnswers,
         };
     }
 
