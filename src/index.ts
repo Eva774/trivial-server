@@ -4,10 +4,12 @@ import http from 'http';
 import { GameState } from '../../dsptw-client/src/models/GameState';
 import { SocketCommand } from '../../dsptw-client/src/models/SocketCommand';
 import { SocketEvent } from '../../dsptw-client/src/models/SocketEvent';
+import { GameEvent } from '../../dsptw-client/src/models/GameEvent';
 import { Game } from './Game';
 import { log } from './Log';
 import { version } from '../package.json';
 import { config } from './Config';
+import { GameEmitType } from './GameEmitType';
 
 (async () => {
     const app = express();
@@ -86,6 +88,9 @@ import { config } from './Config';
                 case SocketCommand.HideJury:
                     game.hideJury();
                     break;
+                case SocketCommand.PlayVideo:
+                    broadcast(SocketEvent.PlayVideo, data.videoIndex);
+                    break;
                 default:
                     log.warn('not a valid socket command');
             }
@@ -105,8 +110,12 @@ import { config } from './Config';
         sockets.push(socket);
     });
 
-    game.on('gameStateUpdate', (gameState: GameState) => {
+    game.on(GameEmitType.GameStateUpdate, (gameState: GameState) => {
         broadcast(SocketEvent.GameStateUpdate, gameState);
+    });
+
+    game.on(GameEmitType.GameEvent, (gameEvent: GameEvent) => {
+        broadcast(SocketEvent.GameEvent, gameEvent);
     });
 
     function broadcast(event: string, data: any) {

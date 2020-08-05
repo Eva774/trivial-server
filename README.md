@@ -28,9 +28,9 @@ Then build the client files with `npm run build`.
 ```
 `port` is the port where the websocket server will be listening as well as the webserver for serving the client and static files.
 
-`staticAssets` is where you set the location of the static files. This must be set to the directory containing your images and videos used in the different rounds. It must have the following directory structure.
+`staticAssets` is where you set the location of the static files. This must be set to the directory containing your images and videos used in the different rounds. It must have the following directory structure. Sound files are optional.
 
-**Important: Videos must be `.mp4` and images must be `.png`!**
+**Important: Videos must be `.mp4`, images must be `.png` and audio files must be `.mp3`!**
 
 - static
     - finale.json
@@ -66,6 +66,14 @@ Then build the client files with `npm run build`.
             - 1.mp4
             - 2.mp4
             - 3.mp4
+    - sound
+        - answerCorrect.mp3
+        - answerTimeout.mp3 (currently not used yet)
+        - applause.mp3
+        - bumper.mp3
+        - itHasHappened.mp3
+        - stopClock.mp3
+        - thinkLoop.mp3
 
 
 `staticClient` is where you built the client files. if you checked out the repositories in the same directory this will be `"../dsptw-client/build"`.

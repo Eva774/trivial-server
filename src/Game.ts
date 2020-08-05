@@ -14,6 +14,8 @@ import { Puzzel } from './Rounds/Puzzel';
 import { Round } from './Rounds/Round';
 import { Overzicht } from './Rounds/Overzicht';
 import { config } from './Config';
+import { GameEmitType } from './GameEmitType';
+import { GameEvent } from '../../dsptw-client/src/models/GameEvent';
 
 export class Game extends EventEmitter {
 
@@ -76,6 +78,7 @@ export class Game extends EventEmitter {
     public startTime() {
         if (!(this.getCurrentRound() instanceof Overzicht)) {
             log.debug('startTime');
+            this.emit(GameEmitType.GameEvent, GameEvent.StartTime);
             this.timerIsRunning = true;
             // this.timerStarted = Date.now();
             // this.timerTimeout = setTimeout(this.stopTime.bind(this), this.getCurrentPlayer().time);
@@ -84,25 +87,42 @@ export class Game extends EventEmitter {
                 if (newTime <= 0) {
                     this.getCurrentPlayer().time = 0;
                     this.stopTime();
+                    if (this.getCurrentRound() instanceof Finale) {
+                        this.emit(GameEmitType.GameEvent, GameEvent.ItHasHappened);
+                    }
                 } else {
                     this.getCurrentPlayer().time = newTime;
                 }
-                this.emitUpdate();
+                this.emitGameStateUpdate();
             }, 200);
         }
     }
 
     public stopTime() {
         log.debug('stopTime');
+        let playSound = true;
+        this.players.forEach(player => {
+            if (player.time === 0) {
+                playSound = false;
+            }
+        })
+
         this.timerIsRunning = false;
         if (this.timerInterval) {
             clearTimeout(this.timerInterval);
+        } else {
+            playSound = false;
         }
-        this.emitUpdate();
+        if (playSound) {
+            this.emit(GameEmitType.GameEvent, GameEvent.StopTime);
+
+        }
+        this.emitGameStateUpdate();
     }
 
     public correctAnswer(foundIndex?: number, playerId = this.getCurrentRound().getCurrentPlayerId()) {
         log.debug('correctAnswer', { foundIndex, playerIndex: playerId });
+        this.emit(GameEmitType.GameEvent, GameEvent.AnswerCorrect);
         const result = this.getCurrentRound().correctAnswer(foundIndex);
         if ('scoreForPlayer' in result && result.scoreForPlayer) {
             this.addTimeToPlayer(playerId, result.scoreForPlayer);
@@ -110,19 +130,19 @@ export class Game extends EventEmitter {
         if ('scoreForOtherPlayer' in result && result.scoreForOtherPlayer) {
             this.addTimeToPlayer(result.otherPlayerId, result.scoreForOtherPlayer);
         }
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public showAllAnswers() {
         log.debug('Showing all unanswered answers')
         this.getCurrentRound().showAllAnswers();
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public nextQuestion() {
         log.debug('nextQuestion');
         this.getCurrentRound().nextQuestion();
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public setCurrentQuestion(questionIndex: number) {
@@ -130,10 +150,10 @@ export class Game extends EventEmitter {
         const currentRound = this.getCurrentRound();
         if (currentRound instanceof OpenDeur) {
             (currentRound as OpenDeur).setCurrentQuestion(questionIndex);
-            this.emitUpdate();
+            this.emitGameStateUpdate();
         } else if (currentRound instanceof CollectiefGeheugen) {
             (currentRound as CollectiefGeheugen).setCurrentQuestion(questionIndex);
-            this.emitUpdate();
+            this.emitGameStateUpdate();
         } else {
             log.warn('Calling setCurrentQuestion not on round OpenDeur or Collectief Geheugen!');
         }
@@ -144,10 +164,10 @@ export class Game extends EventEmitter {
         const currentRound = this.getCurrentRound();
         if (currentRound instanceof OpenDeur) {
             (currentRound as OpenDeur).setView(view);
-            this.emitUpdate();
+            this.emitGameStateUpdate();
         } else if (currentRound instanceof CollectiefGeheugen) {
             (currentRound as CollectiefGeheugen).setView(view);
-            this.emitUpdate();
+            this.emitGameStateUpdate();
         } else {
             log.warn('Calling setView not on round OpenDeur!');
         }
@@ -161,7 +181,7 @@ export class Game extends EventEmitter {
         } else {
             log.warn('calling nextImage not on round "Galerij"');
         }
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public previousRound() {
@@ -173,7 +193,7 @@ export class Game extends EventEmitter {
                 currentRound.init();
             }
         }
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public nextRound() {
@@ -186,7 +206,11 @@ export class Game extends EventEmitter {
                 currentRound.init();
             }
 
-            this.emitUpdate();
+            if (!(currentRound instanceof Overzicht)) {
+                this.emit(GameEmitType.GameEvent, GameEvent.NextRound);
+            }
+
+            this.emitGameStateUpdate();
         }
     }
 
@@ -194,38 +218,38 @@ export class Game extends EventEmitter {
         const currentRound = this.getCurrentRound();
         currentRound.calculateNextStartingPlayer();
 
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public nextPlayerToComplete() {
         const currentRound = this.getCurrentRound();
         currentRound.calculateNextPlayerToComplete();
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public setPlayerName(playerId: number, name: string) {
         this.players[playerId].name = name;
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public setPlayerTime(playerId: number, time: number) {
         this.players[playerId].time = time;
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public setPlayerCameraLink(playerId: number, cameraLink: string) {
         this.players[playerId].cameraLink = cameraLink;
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public showJury() {
         this.juryStatus = true;
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public hideJury() {
         this.juryStatus = false;
-        this.emitUpdate();
+        this.emitGameStateUpdate();
     }
 
     public getState(): GameState {
@@ -249,10 +273,10 @@ export class Game extends EventEmitter {
         };
     }
 
-    private emitUpdate() {
+    private emitGameStateUpdate() {
         const gameState = this.getState();
-        log.debug('gameStateUpdate');
-        this.emit('gameStateUpdate', gameState);
+        // log.debug(GameEmitType.GameStateUpdate);
+        this.emit(GameEmitType.GameStateUpdate, gameState);
     }
 
     private getCurrentPlayer() {
@@ -262,6 +286,7 @@ export class Game extends EventEmitter {
     private addTimeToPlayer(player: number, time: number) {
         let newTime = this.players[player].time + time * 1000;
         if (newTime <= 0) {
+            this.emit(GameEmitType.GameEvent, GameEvent.ItHasHappened);
             this.stopTime();
             newTime = 0;
         }
