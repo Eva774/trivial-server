@@ -35,7 +35,9 @@ export class Finale extends Round {
 
     public correctAnswer(answerIndex: number) {
         this.state.questions[this.state.currentQuestionIndex].answers[answerIndex].found = true;
-        return { scoreForOtherPlayer: -20, otherPlayerId: this.getOtherPlayerId() };
+        const answersFound = this.state.questions[this.state.currentQuestionIndex].answers.filter(answer => answer.found).length;
+        const allAnswersFound = answersFound === 5;
+        return { scoreForOtherPlayer: -20, otherPlayerId: this.getOtherPlayerId(), allAnswersFound };
     }
 
     public getState() {

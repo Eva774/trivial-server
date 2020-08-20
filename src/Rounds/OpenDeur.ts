@@ -24,7 +24,9 @@ export class OpenDeur extends LowestTimeRound {
 
     public correctAnswer(foundIndex: number) {
         this.state.questions[this.state.currentQuestionIndex].answers[foundIndex].found = true;
-        return { scoreForPlayer: 20 };
+        const answersFound = this.state.questions[this.state.currentQuestionIndex].answers.filter(answer => answer.found).length;
+        const allAnswersFound = answersFound === 4;
+        return { scoreForPlayer: 20, allAnswersFound };
     }
 
     public getState() {

@@ -24,7 +24,9 @@ export class Galerij extends LowestTimeRound {
 
     public correctAnswer(imageIndex: number) {
         this.state.questions[this.state.currentQuestionSeriesIndex][imageIndex].found = true;
-        return { scoreForPlayer: 15 };
+        const answersFound = this.state.questions[this.state.currentQuestionSeriesIndex].filter(answer => answer.found).length;
+        const allAnswersFound = answersFound === 10;
+        return { scoreForPlayer: 15, allAnswersFound };
     }
 
     public getState() {

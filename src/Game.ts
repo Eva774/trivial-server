@@ -131,6 +131,9 @@ export class Game extends EventEmitter {
         if ('scoreForOtherPlayer' in result && result.scoreForOtherPlayer) {
             this.addTimeToPlayer(result.otherPlayerId, result.scoreForOtherPlayer);
         }
+        if (result.allAnswersFound) {
+            this.stopTime();
+        }
         this.emitGameStateUpdate();
     }
 
@@ -189,6 +192,7 @@ export class Game extends EventEmitter {
 
     public previousRound() {
         log.debug('previousRound')
+        this.stopTime();
         if (this.roundIndex > 0) {
             this.roundIndex--;
             const currentRound = this.getCurrentRound();
@@ -200,6 +204,7 @@ export class Game extends EventEmitter {
     }
 
     public nextRound() {
+        this.stopTime();
         log.debug('nextRound');
         this.showAnswers = false;
         this.hideJury();

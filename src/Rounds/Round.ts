@@ -1,7 +1,7 @@
 export abstract class Round {
 
     // tslint:disable-next-line: max-line-length
-    public abstract correctAnswer(foundIndex?: number): { scoreForPlayer: number } | { scoreForOtherPlayer: number, otherPlayerId: number };
+    public abstract correctAnswer(foundIndex?: number): { scoreForPlayer: number, allAnswersFound?: boolean } | { scoreForOtherPlayer: number, otherPlayerId: number, allAnswersFound?: boolean };
 
     public abstract nextQuestion(): void;
 
