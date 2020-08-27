@@ -3,6 +3,7 @@ import { RoundName } from '../../../dsptw-client/src/models/RoundName';
 import { FinaleState } from '../../../dsptw-client/src/models/Rounds/FinaleState';
 import { log } from '../Log';
 import { Round } from './Round';
+import { config } from '../Config';
 
 export class Finale extends Round {
 
@@ -69,22 +70,28 @@ export class Finale extends Round {
     }
 
     private selectFinalPlayers() {
-        log.debug('Selecting final players, removing player with HIGHEST time');
-        // TODO add select lowest or highest in config
-        // get ID of player with highest time
-        let playerWithHighestTimeId = 0;
-        for (let i = 1; i < this.players.length; i++) {
-            if (this.players[i].time > this.players[playerWithHighestTimeId].time) {
-                playerWithHighestTimeId = i;
+        const type = config.grandFinaleMode ? 'LOWEST' : 'HIGHEST';
+        log.debug(`Selecting final players, removing player with ${type} time`);
+
+        let playerToBeRemovedId = 0;
+        if (config.grandFinaleMode) {
+            for (let i = 1; i < this.players.length; i++) {
+                if (this.players[i].time < this.players[playerToBeRemovedId].time) {
+                    playerToBeRemovedId = i;
+                }
+            }
+        } else {
+            for (let i = 1; i < this.players.length; i++) {
+                if (this.players[i].time > this.players[playerToBeRemovedId].time) {
+                    playerToBeRemovedId = i;
+                }
             }
         }
-        console.log("currentplayerids finale1", this.currentPlayerIds)
-        this.currentPlayerIds = this.currentPlayerIds.filter((playerId) => playerId !== playerWithHighestTimeId);
 
-        console.log("currentplayerids finale2", this.currentPlayerIds)
+        this.currentPlayerIds = this.currentPlayerIds.filter((playerId) => playerId !== playerToBeRemovedId);
 
-        const winner = this.players[playerWithHighestTimeId];
-        log.info('player', winner.name, 'won with a time of', winner.time);
+        const removedPlayer = this.players[playerToBeRemovedId];
+        log.info('player', removedPlayer.name, 'removed with a time of', removedPlayer.time);
     }
 
     /**
