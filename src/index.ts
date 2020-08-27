@@ -91,6 +91,9 @@ import { GameEmitType } from './GameEmitType';
                 case SocketCommand.PlayVideo:
                     broadcast(SocketEvent.PlayVideo, data.videoIndex);
                     break;
+                case SocketCommand.playApplause:
+                    broadcast(SocketEvent.GameEvent, GameEvent.Applause);
+                    break;
                 default:
                     log.warn('not a valid socket command');
             }
