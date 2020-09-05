@@ -37,29 +37,11 @@ import { GameEmitType } from './GameEmitType';
             }
 
             switch (data.command as SocketCommand) {
-                case SocketCommand.StartTime:
-                    game.startTime();
-                    break;
-                case SocketCommand.StopTime:
-                    game.stopTime();
-                    break;
-                case SocketCommand.CorrectAnswer:
-                    game.correctAnswer(data.foundIndex, data.playerIndex);
+                case SocketCommand.PreviousQuestion:
+                    game.nextQuestion();
                     break;
                 case SocketCommand.NextQuestion:
                     game.nextQuestion();
-                    break;
-                case SocketCommand.SetCurrentQuestion:
-                    game.setCurrentQuestion(data.currentQuestion);
-                    break;
-                case SocketCommand.ShowAllAnswers:
-                    game.showAllAnswers();
-                    break;
-                case SocketCommand.NextImage:
-                    game.nextImage();
-                    break;
-                case SocketCommand.SetView:
-                    game.setView(data.view);
                     break;
                 case SocketCommand.PreviousRound:
                     game.previousRound();
@@ -67,31 +49,10 @@ import { GameEmitType } from './GameEmitType';
                 case SocketCommand.NextRound:
                     game.nextRound();
                     break;
-                case SocketCommand.NextStartingPlayer:
-                    game.nextStartingPlayer();
-                    break;
-                case SocketCommand.NextPlayerToComplete:
-                    game.nextPlayerToComplete();
-                    break;
-                case SocketCommand.SetPlayerName:
-                    game.setPlayerName(data.playerIndex, data.name);
-                    break;
-                case SocketCommand.SetPlayerTime:
-                    game.setPlayerTime(data.playerIndex, data.time);
-                    break;
-                case SocketCommand.SetPlayerCameraLink:
-                    game.setPlayerCameraLink(data.playerIndex, data.cameraLink);
-                    break;
-                case SocketCommand.ShowJury:
-                    game.showJury();
-                    break;
-                case SocketCommand.HideJury:
-                    game.hideJury();
-                    break;
                 case SocketCommand.PlayVideo:
                     broadcast(SocketEvent.PlayVideo, data.videoIndex);
                     break;
-                case SocketCommand.playApplause:
+                case SocketCommand.PlayApplause:
                     broadcast(SocketEvent.GameEvent, GameEvent.Applause);
                     break;
                 default:
@@ -136,8 +97,8 @@ import { GameEmitType } from './GameEmitType';
             log.error('Error creating server');
             process.exit(-1);
         } else {
-            log.info(`De slimste Preparees server with players view started on http://localhost:${address.port}`);
-            log.info(`Presenter view available on http://localhost:${address.port}/?presenter=true`);
+            log.info(`Trivial time players view is available at http://localhost:${address.port}`);
+            log.info(`Presenter view available at http://localhost:${address.port}/?presenter=true`);
         }
     });
 })();
