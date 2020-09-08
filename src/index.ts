@@ -1,15 +1,16 @@
 import WebSocket, { AddressInfo } from 'ws';
 import express from 'express';
 import http from 'http';
-import { GameState } from '../../dsptw-client/src/models/GameState';
-import { SocketCommand } from '../../dsptw-client/src/models/SocketCommand';
-import { SocketEvent } from '../../dsptw-client/src/models/SocketEvent';
-import { GameEvent } from '../../dsptw-client/src/models/GameEvent';
+import { GameState } from '../../client/src/models/GameState';
+import { SocketCommand } from '../../client/src/models/SocketCommand';
+import { SocketEvent } from '../../client/src/models/SocketEvent';
+import { GameEvent } from '../../client/src/models/GameEvent';
 import { Game } from './Game';
 import { log } from './Log';
 import { version } from '../package.json';
 import { config } from './Config';
 import { GameEmitType } from './GameEmitType';
+import { openOBSConnection } from './Obs';
 
 (async () => {
     const app = express();
@@ -21,7 +22,8 @@ import { GameEmitType } from './GameEmitType';
     const sockets: WebSocket[] = [];
 
     const game = new Game();
-    await game.loadEpisode(config.episode);
+    await game.loadEpisode();
+
 
     socketServer.on('connection', (socket) => {
         log.debug('New socket connection incoming');
@@ -38,7 +40,7 @@ import { GameEmitType } from './GameEmitType';
 
             switch (data.command as SocketCommand) {
                 case SocketCommand.PreviousQuestion:
-                    game.nextQuestion();
+                    game.previousQuestion();
                     break;
                 case SocketCommand.NextQuestion:
                     game.nextQuestion();
@@ -55,6 +57,13 @@ import { GameEmitType } from './GameEmitType';
                 case SocketCommand.PlayApplause:
                     broadcast(SocketEvent.GameEvent, GameEvent.Applause);
                     break;
+                case SocketCommand.SetWelcomeTargetTime:
+                    game.setWelcomeTargetTime(data.targetTime);
+                    break;
+                case SocketCommand.SetPauseTargetTime:
+                    game.setPauseTargetTime(data.targetTime);
+                    break;
+
                 default:
                     log.warn('not a valid socket command');
             }

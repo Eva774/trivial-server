@@ -1,8 +1,8 @@
-import { RoundName } from '../../../dsptw-client/src/models/RoundName';
+import { RoundName } from '../../../client/src/models/RoundName';
 import { Round } from './Round';
 import { log } from '../Log';
-import { TextRoundState } from '../../../dsptw-client/src/models/Rounds/TextRoundState';
-import { RoundType } from '../../../dsptw-client/src/models/RoundType';
+import { TextRoundState } from '../../../client/src/models/Rounds/TextRoundState';
+import { RoundType } from '../../../client/src/models/RoundType';
 
 export class TextRound extends Round {
 
