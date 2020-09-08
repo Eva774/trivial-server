@@ -76,6 +76,7 @@ export class Game extends EventEmitter {
     public nextRound() {
         log.debug('nextRound');
         if (this.roundIndex + 1 < this.rounds.length) {
+            this.roundIndex++;
             const currentRoundType = this.getCurrentRound().getState().roundType;
             switch (currentRoundType) {
                 case RoundType.TextRound:
@@ -88,7 +89,6 @@ export class Game extends EventEmitter {
                     setOBSScene(ObsScene.Blank);
                     break;
             }
-            this.roundIndex++;
             this.emitGameStateUpdate();
         }
     }
