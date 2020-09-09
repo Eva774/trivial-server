@@ -10,7 +10,6 @@ import { log } from './Log';
 import { version } from '../package.json';
 import { config } from './Config';
 import { GameEmitType } from './GameEmitType';
-import { openOBSConnection } from './Obs';
 
 (async () => {
     const app = express();

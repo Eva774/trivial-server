@@ -9,9 +9,9 @@ import { GameEmitType } from './GameEmitType';
 import { PauseRound } from './Rounds/PauseRound';
 import { RoundType } from '../../client/src/models/RoundType';
 import { WelcomeRound } from './Rounds/WelcomeRound';
-import { TextRound } from './Rounds/DrieZesNegen';
+import { TextRound } from './Rounds/TextRound';
+import { MediaRound } from './Rounds/MediaRound';
 import { setOBSScene, openOBSConnection } from './Obs';
-import { ObsScene } from '../../client/src/models/ObsScene';
 
 export class Game extends EventEmitter {
 
@@ -32,20 +32,29 @@ export class Game extends EventEmitter {
                 name: "Sebastiaan"
             }
         ];
-
         openOBSConnection();
-
     }
 
     public async loadEpisode() {
         try {
             log.info(`Loading episode from ${config.staticAssets}/questions.json`)
             const questions = JSON.parse(fs.readFileSync(`${config.staticAssets}/questions.json`).toString());
-            const nerdCultuurVragen = questions[0];
+            const nerdCultuurRound = questions[0];
+            const sportRound = questions[1];
+            const muziekRound = questions[2];
+            const wiskundeRound = questions[3];
+            const algemeneKennisRound = questions[4];
+            const fotoRound = questions[5];
+
             this.rounds = [
                 new WelcomeRound(),
-                new TextRound(nerdCultuurVragen),
-                new PauseRound()
+                new TextRound(nerdCultuurRound.name, nerdCultuurRound.questions, 1),
+                new TextRound(sportRound.name, sportRound.questions, 2),
+                new MediaRound(muziekRound.name, muziekRound.questions, 3),
+                new PauseRound(),
+                new TextRound(wiskundeRound.name, wiskundeRound.questions, 4),
+                new TextRound(algemeneKennisRound.name, algemeneKennisRound.questions, 5),
+                new MediaRound(fotoRound.name, fotoRound.questions, 6),
             ]
             log.info(`Questions loaded successfully`)
         } catch (error) {
@@ -56,7 +65,8 @@ export class Game extends EventEmitter {
 
     public previousQuestion() {
         log.debug('previousQuestion');
-
+        this.getCurrentRound().previousQuestion();
+        this.emitGameStateUpdate();
     }
 
     public nextQuestion() {
@@ -77,18 +87,7 @@ export class Game extends EventEmitter {
         log.debug('nextRound');
         if (this.roundIndex + 1 < this.rounds.length) {
             this.roundIndex++;
-            const currentRoundType = this.getCurrentRound().getState().roundType;
-            switch (currentRoundType) {
-                case RoundType.TextRound:
-                    setOBSScene(ObsScene.TextRound);
-                    break;
-                case RoundType.MediaRound:
-                    setOBSScene(ObsScene.MediaRound);
-                    break;
-                default:
-                    setOBSScene(ObsScene.Blank);
-                    break;
-            }
+            setOBSScene(this.getCurrentRound().getState().roundType)
             this.emitGameStateUpdate();
         }
     }
@@ -120,7 +119,6 @@ export class Game extends EventEmitter {
     public getState(): GameState {
         const currentRound = this.getCurrentRound();
         return {
-            roundNumber: 0,
             roundState: this.getCurrentRound().getState(),
             presenters: this.presenters,
         }
