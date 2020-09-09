@@ -12,6 +12,7 @@ import { WelcomeRound } from './Rounds/WelcomeRound';
 import { TextRound } from './Rounds/TextRound';
 import { MediaRound } from './Rounds/MediaRound';
 import { setOBSScene, openOBSConnection } from './Obs';
+import { MediaRoundType } from '../../client/src/models/Rounds/MediaRoundType';
 
 export class Game extends EventEmitter {
 
@@ -50,11 +51,11 @@ export class Game extends EventEmitter {
                 new WelcomeRound(),
                 new TextRound(nerdCultuurRound.name, nerdCultuurRound.questions, 1),
                 new TextRound(sportRound.name, sportRound.questions, 2),
-                new MediaRound(muziekRound.name, muziekRound.questions, 3),
+                new MediaRound(muziekRound.name, MediaRoundType.Movie, muziekRound.questions, 3),
                 new PauseRound(),
                 new TextRound(wiskundeRound.name, wiskundeRound.questions, 4),
                 new TextRound(algemeneKennisRound.name, algemeneKennisRound.questions, 5),
-                new MediaRound(fotoRound.name, fotoRound.questions, 6),
+                new MediaRound(fotoRound.name, MediaRoundType.Picture, fotoRound.questions, 6),
             ]
             log.info(`Questions loaded successfully`)
         } catch (error) {
