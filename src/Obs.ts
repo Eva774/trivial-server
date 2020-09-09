@@ -17,6 +17,9 @@ export function setOBSScene(roundType: RoundType) {
         case RoundType.TextRound:
             scene = ObsScene.TextRound
             break;
+        case RoundType.TalkingRound:
+            scene = ObsScene.TalkingRound
+            break;
         case RoundType.MediaRound:
             scene = ObsScene.MediaRound;
             break;

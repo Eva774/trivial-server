@@ -13,6 +13,7 @@ import { TextRound } from './Rounds/TextRound';
 import { MediaRound } from './Rounds/MediaRound';
 import { setOBSScene, openOBSConnection } from './Obs';
 import { MediaRoundType } from '../../client/src/models/Rounds/MediaRoundType';
+import { TalkingRound } from './Rounds/TalkingRound';
 
 export class Game extends EventEmitter {
 
@@ -49,6 +50,7 @@ export class Game extends EventEmitter {
 
             this.rounds = [
                 new WelcomeRound(),
+                new TalkingRound("Welkom"),
                 new TextRound(nerdCultuurRound.name, nerdCultuurRound.questions, 1),
                 new TextRound(sportRound.name, sportRound.questions, 2),
                 new MediaRound(muziekRound.name, MediaRoundType.Movie, muziekRound.questions, 3),
@@ -56,6 +58,7 @@ export class Game extends EventEmitter {
                 new TextRound(wiskundeRound.name, wiskundeRound.questions, 4),
                 new TextRound(algemeneKennisRound.name, algemeneKennisRound.questions, 5),
                 new MediaRound(fotoRound.name, MediaRoundType.Picture, fotoRound.questions, 6),
+                new TalkingRound("Tot ziens!"),
             ]
             log.info(`Questions loaded successfully`)
         } catch (error) {
@@ -80,6 +83,8 @@ export class Game extends EventEmitter {
         log.debug('previousRound')
         if (this.roundIndex > 0) {
             this.roundIndex--;
+            setOBSScene(this.getCurrentRound().getState().roundType)
+            this.emitGameStateUpdate();
         }
         this.emitGameStateUpdate();
     }
