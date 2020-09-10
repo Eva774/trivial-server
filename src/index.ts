@@ -10,6 +10,9 @@ import { log } from './Log';
 import { version } from '../package.json';
 import { config } from './Config';
 import { GameEmitType } from './GameEmitType';
+import { RoundType } from '../../client/src/models/RoundType';
+import { MediaRoundState } from '../../client/src/models/Rounds/MediaRoundState';
+import { MediaRoundType } from '../../client/src/models/Rounds/MediaRoundType';
 
 (async () => {
     const app = express();
@@ -40,9 +43,11 @@ import { GameEmitType } from './GameEmitType';
             switch (data.command as SocketCommand) {
                 case SocketCommand.PreviousQuestion:
                     game.previousQuestion();
+                    playVideo();
                     break;
                 case SocketCommand.NextQuestion:
                     game.nextQuestion();
+                    playVideo();
                     break;
                 case SocketCommand.PreviousRound:
                     game.previousRound();
@@ -51,7 +56,7 @@ import { GameEmitType } from './GameEmitType';
                     game.nextRound();
                     break;
                 case SocketCommand.PlayVideo:
-                    broadcast(SocketEvent.PlayVideo, data.videoIndex);
+                    broadcast(SocketEvent.PlayVideo);
                     break;
                 case SocketCommand.PlayApplause:
                     broadcast(SocketEvent.GameEvent, GameEvent.Applause);
@@ -90,12 +95,21 @@ import { GameEmitType } from './GameEmitType';
         broadcast(SocketEvent.GameEvent, gameEvent);
     });
 
-    function broadcast(event: string, data: any) {
+    function broadcast(event: string, data?: any) {
         for (const socket of sockets) {
             socket.send(JSON.stringify({
                 event,
                 data,
             }));
+        }
+    }
+
+    function playVideo() {
+        if (game.getState().roundState.roundType === RoundType.MediaRound) {
+            const roundState = (game.getState().roundState as MediaRoundState);
+            if (roundState.mediaRoundType === MediaRoundType.Movie) {
+                broadcast(SocketEvent.PlayVideo);
+            }
         }
     }
 
@@ -110,4 +124,5 @@ import { GameEmitType } from './GameEmitType';
         }
     });
 })();
+
 

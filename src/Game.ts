@@ -127,6 +127,7 @@ export class Game extends EventEmitter {
         return {
             roundState: this.getCurrentRound().getState(),
             presenters: this.presenters,
+            questionDuration: config.questionDuration,
         }
     }
 
