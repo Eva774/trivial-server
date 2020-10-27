@@ -6,7 +6,7 @@ export class TalkingRound extends Round {
 
     private state: TalkingRoundState;
 
-    constructor(roundName: string) {
+    constructor(roundName: string="") {
         super();
         this.state = {
             roundName,

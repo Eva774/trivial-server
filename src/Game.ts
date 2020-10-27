@@ -14,6 +14,7 @@ import { MediaRound } from './Rounds/MediaRound';
 import { setOBSScene, openOBSConnection } from './Obs';
 import { MediaRoundType } from '../../client/src/models/Rounds/MediaRoundType';
 import { TalkingRound } from './Rounds/TalkingRound';
+import { EndRound } from './Rounds/EndRound';
 
 export class Game extends EventEmitter {
 
@@ -55,10 +56,13 @@ export class Game extends EventEmitter {
                 new TextRound(sportRound.name, sportRound.questions, 2),
                 new MediaRound(muziekRound.name, MediaRoundType.Movie, muziekRound.questions, 3),
                 new PauseRound(),
+                new TalkingRound("Welkom terug"),
                 new TextRound(wiskundeRound.name, wiskundeRound.questions, 4),
                 new TextRound(algemeneKennisRound.name, algemeneKennisRound.questions, 5),
                 new MediaRound(fotoRound.name, MediaRoundType.Picture, fotoRound.questions, 6),
-                new TalkingRound("Tot ziens!"),
+                new PauseRound(),
+                new TalkingRound(),
+                new EndRound(),
             ]
             log.info(`Questions loaded successfully`)
         } catch (error) {

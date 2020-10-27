@@ -1,6 +1,6 @@
 {
     "port": 8080,
-    "staticAssets": "/mnt/d/DSPTW/pubquiz",
+    "staticAssets": "../static",
     "staticClient": "../client/build",
     "presenter1": "Lotte",
     "presenter2": "Sebastiaan",
