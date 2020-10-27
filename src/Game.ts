@@ -27,12 +27,12 @@ export class Game extends EventEmitter {
         this.rounds = [];
         this.presenters = [
             {
-                cameraLink: "",
-                name: "Lotte"
+                cameraLink: "https://obs.ninja/?view=evapresenteert",
+                name: "Eva"
             },
             {
-                cameraLink: "",
-                name: "Sebastiaan"
+                cameraLink: "https://obs.ninja/?view=S9F3gwt",
+                name: "Rogier"
             }
         ];
         openOBSConnection();
