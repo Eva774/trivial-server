@@ -2,7 +2,9 @@
     "port": 8080,
     "staticAssets": "../static",
     "staticClient": "../client/build",
-    "presenter1": "Lotte",
-    "presenter2": "Sebastiaan",
+    "presenters": [
+        {"name": "Eva", "cameraLink": "https://obs.ninja/?view=evapresenteert"},
+        {"name": "Rogier", "cameraLink": "https://obs.ninja/?view=S9F3gwt"}
+    ],
     "questionDuration": 90
 }

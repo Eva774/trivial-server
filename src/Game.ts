@@ -18,23 +18,14 @@ import { EndRound } from './Rounds/EndRound';
 
 export class Game extends EventEmitter {
 
-    private presenters: PresenterState[];
+    private presenters: PresenterState[] = [];
     private roundIndex: number = 0;
     private rounds = Array<Round>();
 
     constructor() {
         super();
         this.rounds = [];
-        this.presenters = [
-            {
-                cameraLink: "https://obs.ninja/?view=evapresenteert",
-                name: "Eva"
-            },
-            {
-                cameraLink: "https://obs.ninja/?view=S9F3gwt",
-                name: "Rogier"
-            }
-        ];
+
         openOBSConnection();
     }
 
@@ -130,7 +121,7 @@ export class Game extends EventEmitter {
         const currentRound = this.getCurrentRound();
         return {
             roundState: this.getCurrentRound().getState(),
-            presenters: this.presenters,
+            presenters: config.presenters,
             questionDuration: config.questionDuration,
         }
     }

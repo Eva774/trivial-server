@@ -5,8 +5,7 @@ type ConfigFile = {
     port: number,
     staticAssets: string,
     staticClient: string,
-    presenter1: string,
-    presenter2: string,
+    presenters: [],
     questionDuration: number
 }
 
@@ -24,7 +23,7 @@ class Config {
 
     constructor() {
         this.config = JSON.parse(fs.readFileSync('./config.json').toString()) as ConfigFile;
-        const keys = new Set(['port', 'staticAssets', 'staticClient', 'presenter1', 'presenter2', 'questionDuration']);
+        const keys = new Set(['port', 'staticAssets', 'staticClient', 'presenters', 'questionDuration']);
         if (!eqSet(keys, new Set(Object.keys(this.config)))) {
             throw new Error('Settings file incomplete, the following settings must be set in config.json: ' + Array.from(keys).join(', '))
         }
