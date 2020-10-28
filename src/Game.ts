@@ -15,6 +15,7 @@ import { setOBSScene, openOBSConnection } from './Obs';
 import { MediaRoundType } from '../../client/src/models/Rounds/MediaRoundType';
 import { TalkingRound } from './Rounds/TalkingRound';
 import { EndRound } from './Rounds/EndRound';
+import { MixRound } from './Rounds/MixRound';
 
 export class Game extends EventEmitter {
 
@@ -44,7 +45,7 @@ export class Game extends EventEmitter {
                 new WelcomeRound(),
                 new TalkingRound("Welkom"),
                 new TextRound(nerdCultuurRound.name, nerdCultuurRound.questions, 1),
-                new TextRound(sportRound.name, sportRound.questions, 2),
+                new MixRound(sportRound.name, sportRound.questions, 2),
                 new MediaRound(muziekRound.name, MediaRoundType.Movie, muziekRound.questions, 3),
                 new PauseRound(),
                 new TalkingRound("Welkom terug"),
