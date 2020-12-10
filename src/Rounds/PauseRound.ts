@@ -1,6 +1,6 @@
 import { Round } from './Round';
-import { PauseRoundState } from '../../../client/src/models/Rounds/PauseRoundState';
-import { RoundType } from '../../../client/src/models/RoundType';
+import { PauseRoundState } from '../../../trivial-client/src/models/Rounds/PauseRoundState';
+import { RoundType } from '../../../trivial-client/src/models/RoundType';
 
 export class PauseRound extends Round {
 

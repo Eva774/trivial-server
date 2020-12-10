@@ -1,21 +1,22 @@
 import fs from 'fs';
 import { EventEmitter } from 'events';
-import { GameState } from '../../client/src/models/GameState';
-import { PresenterState } from '../../client/src/models/PresenterState';
+import { GameState } from '../../trivial-client/src/models/GameState';
+import { PresenterState } from '../../trivial-client/src/models/PresenterState';
 import { log } from './Log';
 import { Round } from './Rounds/Round';
 import { config } from './Config';
 import { GameEmitType } from './GameEmitType';
 import { PauseRound } from './Rounds/PauseRound';
-import { RoundType } from '../../client/src/models/RoundType';
+import { RoundType } from '../../trivial-client/src/models/RoundType';
 import { WelcomeRound } from './Rounds/WelcomeRound';
 import { TextRound } from './Rounds/TextRound';
 import { MediaRound } from './Rounds/MediaRound';
 import { setOBSScene, openOBSConnection } from './Obs';
-import { MediaRoundType } from '../../client/src/models/Rounds/MediaRoundType';
+import { MediaRoundType } from '../../trivial-client/src/models/Rounds/MediaRoundType';
 import { TalkingRound } from './Rounds/TalkingRound';
 import { EndRound } from './Rounds/EndRound';
 import { MixRound } from './Rounds/MixRound';
+import { AnswerRound } from './Rounds/AnswerRound';
 
 export class Game extends EventEmitter {
 
@@ -26,34 +27,39 @@ export class Game extends EventEmitter {
     constructor() {
         super();
         this.rounds = [];
-
-        openOBSConnection();
+        openOBSConnection()
     }
 
     public async loadEpisode() {
         try {
             log.info(`Loading episode from ${config.staticAssets}/questions.json`)
             const questions = JSON.parse(fs.readFileSync(`${config.staticAssets}/questions.json`).toString());
-            const nerdCultuurRound = questions[0];
-            const sportRound = questions[1];
-            const muziekRound = questions[2];
-            const wiskundeRound = questions[3];
-            const algemeneKennisRound = questions[4];
-            const fotoRound = questions[5];
+            const halloweenRound = questions[0];
+            const natuurRound = questions[1];
+            const filmRound = questions[2];
+            const answerRound1 = questions[3];
+            const trickOrTreatRound = questions[4];
+            const mysterieRound = questions[5];
+            const muziekRound = questions[6];
+            const answerRound2 = questions[7];
 
             this.rounds = [
                 new WelcomeRound(),
                 new TalkingRound("Welkom"),
-                new TextRound(nerdCultuurRound.name, nerdCultuurRound.questions, 1),
-                new MixRound(sportRound.name, sportRound.questions, 2),
-                new MediaRound(muziekRound.name, MediaRoundType.Movie, muziekRound.questions, 3),
+                new TextRound(halloweenRound.name, halloweenRound.questions, 1),
+                new TextRound(natuurRound.name, natuurRound.questions, 2),
+                new MixRound(filmRound.name, filmRound.questions, 3),
                 new PauseRound(),
                 new TalkingRound("Welkom terug"),
-                new TextRound(wiskundeRound.name, wiskundeRound.questions, 4),
-                new TextRound(algemeneKennisRound.name, algemeneKennisRound.questions, 5),
-                new MediaRound(fotoRound.name, MediaRoundType.Picture, fotoRound.questions, 6),
+                new AnswerRound(answerRound1.name, answerRound1.questions,3),
+                new TalkingRound("Tussenstand"),
+                new TextRound(trickOrTreatRound.name, trickOrTreatRound.questions, 4),
+                new TextRound(mysterieRound.name, mysterieRound.questions, 5),
+                new MediaRound(muziekRound.name, MediaRoundType.Movie, muziekRound.questions, 6),
                 new PauseRound(),
                 new TalkingRound(),
+                new AnswerRound(answerRound2.name, answerRound2.questions,3),
+                new TalkingRound("Eindstand"),
                 new EndRound(),
             ]
             log.info(`Questions loaded successfully`)
@@ -79,7 +85,6 @@ export class Game extends EventEmitter {
         log.debug('previousRound')
         if (this.roundIndex > 0) {
             this.roundIndex--;
-            setOBSScene(this.getCurrentRound().getState().roundType)
             this.emitGameStateUpdate();
         }
         this.emitGameStateUpdate();
@@ -89,7 +94,6 @@ export class Game extends EventEmitter {
         log.debug('nextRound');
         if (this.roundIndex + 1 < this.rounds.length) {
             this.roundIndex++;
-            setOBSScene(this.getCurrentRound().getState().roundType)
             this.emitGameStateUpdate();
         }
     }

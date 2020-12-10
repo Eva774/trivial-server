@@ -1,7 +1,7 @@
 import OBSWebSocket from 'obs-websocket-js';
-import { ObsScene } from '../../client/src/models/ObsScene';
+import { ObsScene } from '../../trivial-client/src/models/ObsScene';
 import { log } from './Log';
-import { RoundType } from '../../client/src/models/RoundType';
+import { RoundType } from '../../trivial-client/src/models/RoundType';
 
 const obs = new OBSWebSocket();
 

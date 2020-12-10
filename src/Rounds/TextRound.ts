@@ -1,7 +1,7 @@
 import { Round } from './Round';
 import { log } from '../Log';
-import { TextRoundState } from '../../../client/src/models/Rounds/TextRoundState';
-import { RoundType } from '../../../client/src/models/RoundType';
+import { TextRoundState } from '../../../trivial-client/src/models/Rounds/TextRoundState';
+import { RoundType } from '../../../trivial-client/src/models/RoundType';
 
 export class TextRound extends Round {
 

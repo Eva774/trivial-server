@@ -1,4 +1,4 @@
-import { RoundState } from '../../../client/src/models/Rounds/RoundState';
+import { RoundState } from '../../../trivial-client/src/models/Rounds/RoundState';
 
 export abstract class Round {
 

@@ -1,6 +1,6 @@
 import { Round } from './Round';
-import { WelcomeRoundState } from '../../../client/src/models/Rounds/WelcomeRoundState';
-import { RoundType } from '../../../client/src/models/RoundType';
+import { WelcomeRoundState } from '../../../trivial-client/src/models/Rounds/WelcomeRoundState';
+import { RoundType } from '../../../trivial-client/src/models/RoundType';
 
 export class WelcomeRound extends Round {
 

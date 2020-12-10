@@ -1,18 +1,18 @@
 import WebSocket, { AddressInfo } from 'ws';
 import express from 'express';
 import http from 'http';
-import { GameState } from '../../client/src/models/GameState';
-import { SocketCommand } from '../../client/src/models/SocketCommand';
-import { SocketEvent } from '../../client/src/models/SocketEvent';
-import { GameEvent } from '../../client/src/models/GameEvent';
+import { GameState } from '../../trivial-client/src/models/GameState';
+import { SocketCommand } from '../../trivial-client/src/models/SocketCommand';
+import { SocketEvent } from '../../trivial-client/src/models/SocketEvent';
+import { GameEvent } from '../../trivial-client/src/models/GameEvent';
 import { Game } from './Game';
 import { log } from './Log';
 import { version } from '../package.json';
 import { config } from './Config';
 import { GameEmitType } from './GameEmitType';
-import { RoundType } from '../../client/src/models/RoundType';
-import { MediaRoundState } from '../../client/src/models/Rounds/MediaRoundState';
-import { MediaRoundType } from '../../client/src/models/Rounds/MediaRoundType';
+import { RoundType } from '../../trivial-client/src/models/RoundType';
+import { MediaRoundState } from '../../trivial-client/src/models/Rounds/MediaRoundState';
+import { MediaRoundType } from '../../trivial-client/src/models/Rounds/MediaRoundType';
 
 (async () => {
     const app = express();

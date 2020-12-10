@@ -1,10 +1,10 @@
 {
     "port": 8080,
     "staticAssets": "../static",
-    "staticClient": "../client/build",
+    "staticClient": "../trivial-client/build",
     "presenters": [
-        {"name": "Daimy", "cameraLink": "https://obs.ninja/?view=evapresenteert"},
-        {"name": "Maarten", "cameraLink": "https://obs.ninja/?view=S9F3gwt"}
+        {"name": "Daimy", "cameraLink": "https://obs.ninja/?view=DaimyDoetRaar"},
+        {"name": "Maarten", "cameraLink": "https://obs.ninja/?view=Maarten"}
     ],
     "questionDuration": 60
 }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/server/src/index.js",
+    "start": "tsc && node dist/trivial-server/src/index.js",
     "watch": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"npm run start\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
