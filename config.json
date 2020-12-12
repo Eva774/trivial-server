@@ -3,8 +3,8 @@
     "staticAssets": "../static",
     "staticClient": "../trivial-client/build",
     "presenters": [
-        {"name": "Daimy", "cameraLink": "https://obs.ninja/?view=DaimyDoetRaar"},
-        {"name": "Maarten", "cameraLink": "https://obs.ninja/?view=Maarten"}
+        {"name": "Kim", "cameraLink": "https://obs.ninja/?view=DaimyDoetRaar"},
+        {"name": "Rogier", "cameraLink": "https://obs.ninja/?view=Maarten"}
     ],
     "questionDuration": 60
 }
