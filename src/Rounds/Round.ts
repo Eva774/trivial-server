@@ -8,4 +8,6 @@ export abstract class Round {
 
     public abstract getState(): RoundState;
 
+    public abstract displayQuestion(): void;
+
 }

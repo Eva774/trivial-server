@@ -36,5 +36,5 @@ export class MixRound extends Round {
             this.state.currentQuestionIndex++;
         }
     }
-
+    public displayQuestion(): void {}
 }

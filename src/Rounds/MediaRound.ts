@@ -16,7 +16,8 @@ export class MediaRound extends Round {
             roundType: RoundType.MediaRound,
             mediaRoundType,
             currentQuestionIndex: -1,
-            questions
+            questions,
+            displayQuestion: false,
         };
     }
 
@@ -27,6 +28,7 @@ export class MediaRound extends Round {
     public previousQuestion(): void {
         if (this.state.currentQuestionIndex >= 0) {
             this.state.currentQuestionIndex--;
+            this.state.displayQuestion = false;
         } else {
             log.error("dat gaan we niet doen, foemp")
         }
@@ -35,6 +37,13 @@ export class MediaRound extends Round {
     public nextQuestion() {
         if (this.state.currentQuestionIndex < this.state.questions.length) {
             this.state.currentQuestionIndex++;
+            this.state.displayQuestion = false;
+        }
+    }
+
+    public displayQuestion ():void {
+        if (this.state.currentQuestionIndex >= 0 && this.state.currentQuestionIndex < this.state.questions.length) {
+            this.state.displayQuestion = true;
         }
     }
 

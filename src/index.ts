@@ -67,7 +67,9 @@ import { MediaRoundType } from '../../trivial-client/src/models/Rounds/MediaRoun
                 case SocketCommand.SetPauseTargetTime:
                     game.setPauseTargetTime(data.targetTime);
                     break;
-
+                case SocketCommand.DisplayQuestion:
+                    game.displayQuestion();
+                    break
                 default:
                     log.warn('not a valid socket command');
             }

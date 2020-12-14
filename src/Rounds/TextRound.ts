@@ -36,5 +36,5 @@ export class TextRound extends Round {
             this.state.currentQuestionIndex++;
         }
     }
-
+    public displayQuestion(): void {}
 }

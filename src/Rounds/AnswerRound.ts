@@ -37,4 +37,6 @@ export class AnswerRound extends Round {
         }
     }
 
+    public displayQuestion(): void {}
+
 }
