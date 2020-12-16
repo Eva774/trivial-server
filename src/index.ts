@@ -69,7 +69,10 @@ import { MediaRoundType } from '../../trivial-client/src/models/Rounds/MediaRoun
                     break;
                 case SocketCommand.DisplayQuestion:
                     game.displayQuestion();
-                    break
+                    break;
+                case SocketCommand.SetInputRanking:
+                    game.setInputRanking(data.inputRanking);
+                    break;
                 default:
                     log.warn('not a valid socket command');
             }

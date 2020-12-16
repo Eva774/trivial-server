@@ -17,6 +17,7 @@ import { TalkingRound } from './Rounds/TalkingRound';
 import { EndRound } from './Rounds/EndRound';
 import { MixRound } from './Rounds/MixRound';
 import { AnswerRound } from './Rounds/AnswerRound';
+import { RankingRound } from './Rounds/RankingRound';
 
 export class Game extends EventEmitter {
 
@@ -56,7 +57,7 @@ export class Game extends EventEmitter {
                 new AnswerRound(answerRound1.name, answerRound1.questions,3),
                 new TalkingRound(""),
                 new AnswerRound(answerRound2.name, answerRound2.questions,3),
-                new TalkingRound("Tussenstand"),
+                new RankingRound(),
                 new TextRound(ghostRound.name, ghostRound.questions, 4),
                 new MediaRound(homeRound.name,MediaRoundType.Movie, homeRound.questions, 5),
                 new MediaRound(jaarRound.name, MediaRoundType.Picture, jaarRound.questions, 6),
@@ -136,7 +137,15 @@ export class Game extends EventEmitter {
         this.emitGameStateUpdate();
     }
 
-
+    public setInputRanking(inputRanking: string) {
+        log.debug('setInputRanking', inputRanking);
+        this.rounds.forEach( round => {
+            if (round.getState().roundType === RoundType.RankingRound) {
+                (round as RankingRound).setInputRanking(inputRanking);
+            }
+        })
+        this.emitGameStateUpdate();
+    }
     public getState(): GameState {
         const currentRound = this.getCurrentRound();
         return {
