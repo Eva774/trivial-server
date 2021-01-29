@@ -66,7 +66,7 @@ export class Game extends EventEmitter {
                 new AnswerRound(answerRound3.name, answerRound3.questions,3),
                 new TalkingRound(),
                 new AnswerRound(answerRound4.name, answerRound4.questions,3),
-                new TalkingRound("Eindstand"),
+                new RankingRound(),
                 new EndRound(),
             ]
             log.info(`Questions loaded successfully`)
