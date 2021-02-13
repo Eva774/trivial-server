@@ -147,7 +147,6 @@ export class Game extends EventEmitter {
         this.emitGameStateUpdate();
     }
     public getState(): GameState {
-        const currentRound = this.getCurrentRound();
         return {
             roundState: this.getCurrentRound().getState(),
             presenters: config.presenters,
