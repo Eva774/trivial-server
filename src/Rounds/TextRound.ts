@@ -37,4 +37,5 @@ export class TextRound extends Round {
         }
     }
     public displayQuestion(): void {}
+    public hideQuestion(): void {}
 }

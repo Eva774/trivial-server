@@ -40,4 +40,5 @@ export class RankingRound extends Round {
         this.state.inputRanking = inputRanking;
     }
     public displayQuestion(): void {}
+    public hideQuestion(): void {}
 }

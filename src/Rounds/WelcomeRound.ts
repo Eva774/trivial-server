@@ -25,6 +25,7 @@ export class WelcomeRound extends Round {
     public nextQuestion() {
     }
     public displayQuestion(): void {}
+    public hideQuestion(): void {}
     public setTargetTime(targetTime: Date) {
         this.state.targetTime = targetTime;
     }

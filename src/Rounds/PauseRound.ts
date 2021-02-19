@@ -29,4 +29,5 @@ export class PauseRound extends Round {
         this.state.targetTime = targetTime;
     }
     public displayQuestion(): void {}
+    public hideQuestion(): void {}
 }

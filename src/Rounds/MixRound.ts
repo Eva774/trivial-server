@@ -37,4 +37,5 @@ export class MixRound extends Round {
         }
     }
     public displayQuestion(): void {}
+    public hideQuestion(): void {}
 }

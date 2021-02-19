@@ -70,6 +70,9 @@ import { MediaRoundType } from '../../trivial-client/src/models/Rounds/MediaRoun
                 case SocketCommand.DisplayQuestion:
                     game.displayQuestion();
                     break;
+                case SocketCommand.HideQuestion:
+                    game.hideQuestion();
+                    break;
                 case SocketCommand.SetInputRanking:
                     game.setInputRanking(data.inputRanking);
                     break;

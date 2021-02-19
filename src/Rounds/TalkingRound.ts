@@ -24,4 +24,5 @@ export class TalkingRound extends Round {
     public nextQuestion() {
     }
     public displayQuestion(): void {}
+    public hideQuestion(): void {}
 }

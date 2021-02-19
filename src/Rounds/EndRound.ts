@@ -19,4 +19,5 @@ export class EndRound extends Round {
     public nextQuestion() {
     }
     public displayQuestion(): void {}
+    public hideQuestion(): void {}
 }

@@ -10,4 +10,5 @@ export abstract class Round {
 
     public abstract displayQuestion(): void;
 
+    public abstract hideQuestion(): void;
 }
