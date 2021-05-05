@@ -62,8 +62,10 @@ export class Game extends EventEmitter {
                 new MixRound(colorRound.name, colorRound.questions, 6),
                 new PauseRound(),
                 new TalkingRound(),
-                new AnswerRound(answerRound2.name, answerRound2.questions,3),
+                new AnswerRound(answerRound2.name, answerRound2.questions,6),
+                new TalkingRound(),
                 new RankingRound(),
+                new TalkingRound(),
                 new EndRound(),
             ]
             log.info(`Questions loaded successfully`)
